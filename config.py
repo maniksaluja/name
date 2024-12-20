@@ -30,7 +30,7 @@ MONGO_DB_URI = getenv('MONGO_DB_URI', 'mongodb+srv://manik:manik11@cluster0.iam3
 #All the essential channels needed
 DB_CHANNEL_ID = int(getenv('DB_CHANNEL_ID', '-1002374330304'))
 DB_CHANNEL_2_ID = int(getenv('DB_CHANNEL_2_ID', '-1002374330304'))
-LOG_CHANNEL_ID = int(getenv('LOG_CHANNEL_ID', '-1002374330304'))
+LOG_CHANNEL_ID = int(getenv('LOG_CHANNEL_ID', '-1002462410192'))
 LOG_CHANNEL_ID2 = int(getenv('LOG_CHANNEL_ID2', '-1002385675587')) #Keep it 0 if you don't have second log channel
 FEEDBACK_CHANNEL = int(getenv("FEEDBACK_CHANNEL", -1002330344157)) # Keep it 0 if you don't want to give feed back channel id
 AFTER_FEEDBACK = int(getenv("AFTER_FEEDBACK", -1002385675587)) #Channel on which post will be forwarded when the owner clicks on approve
