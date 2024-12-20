@@ -1,0 +1,8 @@
+git+https://github.com/KurimuzonAkuma/pyrogram.git@v2.1.33
+TgCrypto
+motor
+requests
+aiohttp
+pandas
+cachetools
+psutil
