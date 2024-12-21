@@ -190,10 +190,7 @@ async def cbq(c: Client, q: CallbackQuery):
             settings["logs"] = toggle_able[index]
         elif setting_key == "generate":
             cur = int(settings.get(setting_key, 10))
-            if cur == 10:
-                next_ = 1
-            else:
-                next_ = cur + 1
+            next_ = 10 if cur == 1 else 1
             settings[setting_key] = next_
         else:
             settings[setting_key] = not settings.get(setting_key, default_value)
