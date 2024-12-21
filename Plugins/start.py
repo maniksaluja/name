@@ -1,5 +1,4 @@
 import asyncio
-from time import time
 from typing import List
 
 from pyrogram import Client, filters
@@ -11,7 +10,6 @@ from pyrogram.types import Message, User
 from config import (AUTO_DELETE_TIME, CONTENT_SAVER, DB_CHANNEL_2_ID,
                     DB_CHANNEL_ID, FSUB_1, FSUB_2, RFSUB, STICKER_ID,
                     TUTORIAL_LINK)
-from Database.auto_delete import get, update
 from Database.encr import get_encr
 from Database.pending_request_db import is_user_pending
 from Database.privileges import get_privileges
@@ -71,10 +69,10 @@ async def get_chats(c: Client):
         new = []
         for x in FSUB:
             crt = False
-            r = "direct"
+            r = x
             if x in RFSUB:
                 crt = True
-                r = "request"
+                r = x
             try:
                 y = await c.create_chat_invite_link(x, creates_join_request=crt)
                 new.append((y.invite_link, r))
@@ -91,8 +89,8 @@ async def markup(_, link=None) -> IKM:
         chats = await get_chats(_)
     mark = []
     
-    for chat, Type in chats:
-        if Type == "request":
+    for chat, id_ in chats:
+        if id_ in RFSUB:
             mark.append([IKB("Send join request", url=chat)])
         else:
             mark.append([IKB("Join channel", url=chat)])
@@ -104,19 +102,23 @@ async def markup(_, link=None) -> IKM:
     markup = IKM(mark)
     return markup
 
-async def start_markup(_) -> IKM:
+async def start_markup(_, feedback_req = False) -> IKM:
     global chats
     if not chats:
         chats = await get_chats(_)
     mark = []
     
-    for chat, Type in chats:
-        if Type == "request":
-            mark.append([IKB("Send join request", url=chat)])
+    for link, i in chats:
+        if i == FSUB_1:
+            mark.append(IKB("FSUB1", url=link))
+        elif i == FSUB_2:
+            mark.append(IKB("FSUB2", url=link))
         else:
-            mark.append([IKB("Join channel", url=chat)])
+            continue
+    mark = [mark]
     mark.append([IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)])
-    mark.append([IKB("Give Feedback", "give_feedback")])
+    if feedback_req:
+        mark.append([IKB("Give Feedback", "give_feedback")])
     markup = IKM(mark)
     return markup
 
@@ -171,14 +173,10 @@ async def start(_: Client, m: Message):
                 ok1 = await ok.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
                 haha = [ok1, ok]
                 await task_initiator(haha)
-                # dic = await get(user_id)
-                # dic[str(ok.id)] = [str(ok1.id), time(), f'https://t.me/{me.username}?start=get{encr}']
-                # await update(user_id, dic)
             return
         elif command.startswith('batchone'):
             encr = command[8:]
             if not await check_fsub(user_id):
-                #txt = 'Make sure you have joined all chats below.'
                 mark = await markup(_, f'https://t.me/{me.username}?start=batchone{encr}')
                 await m.reply(TRY_AGAIN_TEXT.format(m.from_user.mention), reply_markup=mark)
                 return 
@@ -244,19 +242,12 @@ async def start(_: Client, m: Message):
                 haha.append(ok1)
                 if haha:
                     await task_initiator(haha)
-                # dic = await get(user_id)
-                # for ok in haha:
-                #     if not ok:
-                #         continue
-                #     dic[str(ok.id)] = [str(ok1.id), time(), f'https://t.me/{me.username}?start=batchone{encr}']
-                # await update(user_id, dic)
             if okkie:
                 await okkie.delete()
             return
         elif command.startswith('batchtwo'):
             encr = command[8:]
             if not await check_fsub(user_id):
-                #txt = 'Make sure you have joined all chats below.'
                 mark = await markup(_, f'https://t.me/{me.username}?start=batchtwo{encr}')
                 return await m.reply(TRY_AGAIN_TEXT.format(m.from_user.mention), reply_markup=mark)
             std = await m.reply_sticker(STICKER_ID)
@@ -297,18 +288,11 @@ async def start(_: Client, m: Message):
                     gg = await tryer(x.copy, user_id, caption=CUSTOM_CAPTION, reply_markup=voice_n_kb)
                     haha.append(gg)
                     await asyncio.sleep(1)
-                    # tasks.append(asyncio.create_task(x.copy(user_id)))
             await std.delete()
             if AUTO_DELETE_TIME:
                 ok1 = await m.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
                 haha.append(ok1)
                 await task_initiator(haha)
-                # dic = await get(user_id)
-                # for ok in haha:
-                #     if not ok:
-                #         continue
-                #     dic[str(ok.id)] = [str(ok1.id), time(), f'https://t.me/{me.username}?start=batchtwo{encr}']
-                # await update(user_id, dic)
             if okkie:
                 await okkie.delete()
             return

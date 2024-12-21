@@ -13,7 +13,7 @@ if RFSUB and RFSUB[0]:
     FSUB = FSUB + RFSUB 
 
 
-@Client.on_message(filters.chat(FSUB) & (filters.new_chat_members | filters.left_chat_member))
+@Client.on_message(filters.new_chat_members | filters.left_chat_member)
 async def jl(_: Client, m: Message):
     settings = await get_settings()
     markup = await start_markup(_)
