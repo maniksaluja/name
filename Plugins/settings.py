@@ -5,7 +5,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 
-from config import LOG_CHANNEL_ID, LOG_CHANNEL_ID2, SUDO_USERS
+from config import SUDO_USERS
 from Database.settings import *
 
 yes = '☑️'
@@ -16,9 +16,9 @@ def log_chan(dic: dict):
         if x == "both":
             return "Both"
         elif x == "l1":
-            return f"Log Channel 1: {LOG_CHANNEL_ID}"
+            return f"Log Channel 1"
         else:
-            return f"Log Channel 2: {LOG_CHANNEL_ID2}"
+            return f"Log Channel 2"
     return '❌'
 
 def markup(dic):

@@ -26,9 +26,9 @@ async def jl(_: Client, m: Message):
             return
         try:
             if JOIN_IMAGE:
-                await _.send_photo(user.username if user.username else user.id, JOIN_IMAGE, caption=JOIN_MESSAGE, reply_markup=markup)
+                await _.send_photo(user.id, JOIN_IMAGE, caption=JOIN_MESSAGE, reply_markup=markup)
             else:
-                await _.send_message(user.username if user.username else user.id, JOIN_MESSAGE, reply_markup=markup)
+                await _.send_message(user.id, JOIN_MESSAGE, reply_markup=markup)
         except Exception as e:
             print(e)
         """
@@ -39,9 +39,9 @@ async def jl(_: Client, m: Message):
         try:
             user: User = m.left_chat_member
             # if LEAVE_IMAGE:
-            #     await _.send_photo(user.username if user.username else user.id, LEAVE_IMAGE, caption=LEAVE_MESSAGE, reply_markup=markup)
+            #     await _.send_photo(user.id, LEAVE_IMAGE, caption=LEAVE_MESSAGE, reply_markup=markup)
             # else:
-            #     await _.send_message(user.username if user.username else user.id, LEAVE_MESSAGE, reply_markup=markup)
-            await _.send_voice(user.username if user.username else user.id, 'Voice/uff.ogg', caption=LEAVE_MESSAGE, reply_markup=markup)
+            #     await _.send_message(user.id, LEAVE_MESSAGE, reply_markup=markup)
+            await _.send_voice(user.id, 'Voice/uff.ogg', caption=LEAVE_MESSAGE, reply_markup=markup)
         except Exception as e:
             print(e)

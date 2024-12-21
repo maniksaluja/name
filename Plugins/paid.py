@@ -3,6 +3,8 @@ import datetime
 import time
 
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton as IKB
+from pyrogram.types import InlineKeyboardMarkup as IKM
 
 from config import CONNECT_TUTORIAL_LINK, EXPIRY_TIME, SU_IMAGE, SUDO_USERS
 from Database.privileges import *
@@ -11,7 +13,6 @@ from main import app
 from templates import EXPIRE_TEXT, SU_TEXT
 
 from . import tryer
-from .tasks import IKB, IKM
 
 exp = int(EXPIRY_TIME * 86400)
 

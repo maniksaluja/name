@@ -30,8 +30,11 @@ members = {FSUB_1: [], FSUB_2: []} # {chat_id: [user_id]}
 FSUB = [FSUB_1, FSUB_2]
 if RFSUB and RFSUB[0]:
     for i in RFSUB:
-        FSUB.append(i)
-        members[i] = []
+        if i not in FSUB:
+            FSUB.append(i)
+        if i not in members:
+            members[i] = []
+
 
 @Client.on_message(filters.chat(FSUB) & (filters.new_chat_members | filters.left_chat_member))
 async def cmufunc(_, m: Message):
