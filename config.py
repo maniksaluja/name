@@ -25,7 +25,7 @@ BUY_LINK = getenv("http://t.me/cutegirlTG") #Link to the acc or channel on which
 OWNER_ID =int(getenv("OWNER_ID", 6604279354))
 SUDO_USERS = [int(x) for x in getenv('SUDO_USERS', '6604279354 6104594076').split()]
 SUDO_USERS.append(OWNER_ID)
-MONGO_DB_URI = 'MONGO_DB_URI', 'mongodb+srv://manik:manik11@cluster0.iam3w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+MONGO_DB_URI = 'mongodb+srv://manik:manik11@cluster0.iam3w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 
 #All the essential channels needed
 DB_CHANNEL_ID = int(getenv('DB_CHANNEL_ID', '-1002417792574'))

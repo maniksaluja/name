@@ -50,13 +50,13 @@ async def cwf(_: Client, m: Message):
     if not m.from_user.id in SUDO_USERS:
         if m.text:
             if not m.command:
-                markup = await build(_)
+                markup = await build(_, True)
                 if USELESS_IMAGE:
                     await m.reply_photo(USELESS_IMAGE, caption=USELESS_MESSAGE, reply_markup=markup)
                 else:
                     await m.reply(USELESS_MESSAGE, reply_markup=markup)
         else:
-            markup = await build(_)
+            markup = await build(_, True)
             if USELESS_IMAGE:
                 await m.reply_photo(USELESS_IMAGE, caption=USELESS_MESSAGE, reply_markup=markup)
             else:
@@ -121,3 +121,16 @@ async def reactionnn(c: Client, m: Message):
         else:
             await m.forward(AUTO_SAVE_CHANNEL)
     return
+
+@Client.on_message(filters.chat([DB_CHANNEL_2_ID, DB_CHANNEL_ID]))
+async def add_counter_in_caption(_, m: Message):
+    cur = await incr_count()
+
+    if m.forward_from_chat or m.forward_from:
+        return #can't update forwarded messages
+    if m.text:
+        txt = f"{m.text}\n#EP{cur}"
+        await m.edit_text(txt)
+    else:
+        cap = f"{m.caption}\n#EP{cur}" if m.caption else f"#EP{cur}"
+        await m.edit_caption(cap)

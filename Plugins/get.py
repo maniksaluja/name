@@ -41,7 +41,7 @@ async def get(_, m):
     return await m.reply('**Wait Until Previous Download Finished.**')
   priv = await get_privileges(id)
   if not priv[1]:
-    return await m.reply_photo(USELESS_IMAGE, caption=USELESS_MESSAGE, reply_markup=await build(_))
+    return await m.reply_photo(USELESS_IMAGE, caption=USELESS_MESSAGE, reply_markup=await build(_, True))
   session = await get_session(id)
   if not session:
     return await m.reply("**Before Use.You Have to Connect with Bot.For Connect Use: /connect **")
@@ -107,7 +107,7 @@ async def pbatch(_, m):
   priv = await get_privileges(m.from_user.id)
   sets = await get_settings()
   if not priv[0]:
-    return await m.reply_photo(USELESS_IMAGE, caption=USELESS_MESSAGE, reply_markup=await build(_))
+    return await m.reply_photo(USELESS_IMAGE, caption=USELESS_MESSAGE, reply_markup=await build(_, True))
   session = await get_session(id)
   if not session:
     return await m.reply("**Before Use.You Have to Connect with Bot.For Connect Use: /connect **")

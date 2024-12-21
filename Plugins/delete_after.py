@@ -4,6 +4,7 @@ from typing import List
 from pyrogram.types import Message
 
 from config import AUTO_DELETE_TIME
+from Database.count import get_count
 from templates import POST_DELETE_TEXT
 
 
@@ -16,7 +17,8 @@ async def Delete_task(m: List[Message]):
                 await i.delete()
             except:
                 continue
-    await z.reply_text(POST_DELETE_TEXT)
+    cur = await get_count()
+    await z.reply_text(POST_DELETE_TEXT.format(cur))
     return
 
 async def task_initiator(m: List[Message]):

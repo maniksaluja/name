@@ -64,20 +64,10 @@ async def settings(_, m):
     txt = '**IT Helps To Change Bot Basic Settings..**'
     mark = markup(set)
     ok = await m.reply(txt, reply_markup=mark)
-    dic[m.from_user.id] = [ok, time()]
+    asyncio.create_task(task(ok))
     
-async def task():
-    while True:
-        rem = []
-        for x in dic:
-            if int(time() - dic[x][1]) > 120:
-                try:
-                    await dic[x][0].delete()
-                except:
-                    pass
-                rem.append(x)
-        for y in rem:
-            del dic[y]
-        await asyncio.sleep(1)
+async def task(m):
+    await asyncio.sleep(120)
+    await m.delete()
+    
         
-asyncio.create_task(task())

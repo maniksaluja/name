@@ -9,7 +9,7 @@ from Database.settings import get_settings
 from .start import FSUB
 
 
-@Client.on_chat_join_request(filters.chat(FSUB))
+@Client.on_chat_join_request()
 async def chat_join_request_handl(client: Client, request: ChatJoinRequest):
     """
     Automatically approve chat join requests if auto-approval is enabled.

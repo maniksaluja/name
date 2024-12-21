@@ -115,8 +115,7 @@ async def start_markup(_, feedback_req = False) -> IKM:
             mark.append(IKB("FSUB2", url=link))
         else:
             continue
-    mark = [mark]
-    mark.append([IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)])
+    mark = [[IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)], mark]
     if feedback_req:
         mark.append([IKB("Give Feedback", "give_feedback")])
     markup = IKM(mark)

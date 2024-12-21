@@ -13,7 +13,7 @@ from Plugins.start import get_chats
 from templates import JOIN_MESSAGE
 
 
-@Client.on_chat_join_request(filters.chat(RFSUB))
+@Client.on_chat_join_request()
 async def cjr(_: Client, r: ChatJoinRequest):
     chat = r.chat
     userId = r.from_user.id

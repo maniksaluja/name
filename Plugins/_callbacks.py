@@ -24,6 +24,7 @@ async def cbq(c: Client, q: CallbackQuery):
     global USER_LISTENING
     global current_listening
     global ADMIN_REPLY_BACK
+    print(data)
     
     # Handle 'sharewithme' callback
     if data == 'sharewithme':
@@ -187,10 +188,17 @@ async def cbq(c: Client, q: CallbackQuery):
             toggle_able = ["both", "l1", "l2", False]
             index = (toggle_able.index(settings["logs"]) + 1) if toggle_able.index(settings["logs"]) != len(toggle_able)-1 else 0
             settings["logs"] = toggle_able[index]
+        elif setting_key == "generate":
+            cur = int(settings.get(setting_key, 10))
+            if cur == 10:
+                next_ = 1
+            else:
+                next_ = cur + 1
+            settings[setting_key] = next_
         else:
             settings[setting_key] = not settings.get(setting_key, default_value)
-        markup_content = markup(settings)
         await update_settings(settings)
+        markup_content = markup(settings)
         return settings, markup_content
 
     # Handle toggling various settings

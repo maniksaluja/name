@@ -118,7 +118,7 @@ async def bot(_, m):
     id = m.from_user.id
     priv = await get_privileges(id)
     if not priv[1]:
-        return await tryer(m.reply_photo, USELESS_IMAGE, caption=USELESS_MESSAGE, reply_markup=await build(_))
+        return await tryer(m.reply_photo, USELESS_IMAGE, caption=USELESS_MESSAGE, reply_markup=await build(_, True))
     session = await get_session(id)
     if not session:
         return await m.reply("**Before Use.You Have to Connect with Bot.For Connect Use: /connect **")
