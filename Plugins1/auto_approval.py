@@ -5,7 +5,7 @@ from pyrogram.types import ChatJoinRequest
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 
-from config import JOIN_IMAGE, MUST_VISIT_LINK, RFSUB, TUTORIAL_LINK
+from config import FSUB_1, JOIN_IMAGE, MUST_VISIT_LINK, TUTORIAL_LINK
 from Database.pending_request_db import delete_user, insert_user
 from Database.settings import get_settings
 from Database.users import add_user_2
@@ -13,7 +13,7 @@ from Plugins.start import get_chats
 from templates import JOIN_MESSAGE
 
 
-@Client.on_chat_join_request()
+@Client.on_chat_join_request(filters.chat(FSUB_1))
 async def cjr(_: Client, r: ChatJoinRequest):
     chat = r.chat
     userId = r.from_user.id

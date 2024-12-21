@@ -6,10 +6,10 @@ from pyrogram.types import ChatJoinRequest
 from Database.pending_request_db import delete_user, insert_user
 from Database.settings import get_settings
 
-from .start import FSUB
+from .start import FSUB_1
 
 
-@Client.on_chat_join_request()
+@Client.on_chat_join_request(filters.chat(FSUB_1))
 async def chat_join_request_handl(client: Client, request: ChatJoinRequest):
     """
     Automatically approve chat join requests if auto-approval is enabled.
