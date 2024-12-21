@@ -83,5 +83,5 @@ Is Expired Now But You Can RENEW**
 """
 
 CUSTOM_CAPTION = """
-> **[WARNING](https://telegra.ph/DISCLAIMER-12-19-32)**
+> **[DISCLAIMER!!](https://telegra.ph/DISCLAIMER-12-19-32)**
 """
