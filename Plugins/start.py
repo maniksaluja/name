@@ -171,12 +171,13 @@ async def start(_: Client, m: Message):
             if AUTO_DELETE_TIME:
                 ok1 = await ok.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
                 haha = [ok1, ok]
-                await task_initiator(haha)
+                await task_initiator(haha, f'https://t.me/{me.username}?start=get{encr}')
             return
         elif command.startswith('batchone'):
             encr = command[8:]
+            link = f'https://t.me/{me.username}?start=batchone{encr}'
             if not await check_fsub(user_id):
-                mark = await markup(_, f'https://t.me/{me.username}?start=batchone{encr}')
+                mark = await markup(_, link)
                 await m.reply(TRY_AGAIN_TEXT.format(m.from_user.mention), reply_markup=mark)
                 return 
             std = await m.reply_sticker(STICKER_ID)
@@ -240,14 +241,15 @@ async def start(_: Client, m: Message):
                 ok1 = await m.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
                 haha.append(ok1)
                 if haha:
-                    await task_initiator(haha)
+                    await task_initiator(haha, link)
             if okkie:
                 await okkie.delete()
             return
         elif command.startswith('batchtwo'):
             encr = command[8:]
+            link = f'https://t.me/{me.username}?start=batchtwo{encr}'
             if not await check_fsub(user_id):
-                mark = await markup(_, f'https://t.me/{me.username}?start=batchtwo{encr}')
+                mark = await markup(_, link)
                 return await m.reply(TRY_AGAIN_TEXT.format(m.from_user.mention), reply_markup=mark)
             std = await m.reply_sticker(STICKER_ID)
             spl = decrypt(encr).split('|')[0].split('-')
@@ -291,7 +293,7 @@ async def start(_: Client, m: Message):
             if AUTO_DELETE_TIME:
                 ok1 = await m.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
                 haha.append(ok1)
-                await task_initiator(haha)
+                await task_initiator(haha, link)
             if okkie:
                 await okkie.delete()
             return

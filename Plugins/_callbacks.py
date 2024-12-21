@@ -1,5 +1,5 @@
 from pyrogram import Client
-from pyrogram.errors.exceptions import MessageNotModified
+from pyrogram.errors.exceptions import MessageIdInvalid, MessageNotModified
 from pyrogram.types import CallbackQuery
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
@@ -37,9 +37,16 @@ async def cbq(c: Client, q: CallbackQuery):
 
     if data == "send_voicenote":
         kb = IKM([[IKB("Contact to Buy Now", url=BUY_LINK)]])
-        await q.message.reply_audio(FILE_PATH, reply_markup=kb)
+        try:
+            await q.message.reply_audio(FILE_PATH, reply_markup=kb)
+        except MessageIdInvalid:
+            pass
+        except Exception as e:
+            print(f"Error at line send_voienote: {e}")
         try:
             await q.edit_message_reply_markup(None)
+        except MessageIdInvalid:
+            pass
         except Exception as e:
             print(f"Error at line send_voienote: {e}")
         return
