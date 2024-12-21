@@ -67,7 +67,7 @@ async def cbq(c: Client, q: CallbackQuery):
             return
 
         elif to_do == "reject":
-            kb = IKM([[IKB("Comment", f"feedback_r:{reply_to.forward_from.id}"), IKB("Ignore", f"feedback_i{reply_to.forward_from.id}")]])
+            kb = IKM([[IKB("Comment", f"feedback_r:{reply_to.forward_from.id}"), IKB("Ignore", f"feedback_i:{reply_to.forward_from.id}")]])
 
             await c.send_message(OWNER_ID, f"Do you want to say something to user who have given [this feedback]({reply_to.link})?", disable_web_page_preview=True, reply_markup=kb)
             ADMIN_REPLY_BACK[reply_to.forward_from.id] = {}
@@ -99,6 +99,7 @@ async def cbq(c: Client, q: CallbackQuery):
                 ADMIN_REPLY_BACK.pop(u_id)
             except:
                 pass
+            Plugins.LISTENING_FOR = None
             return
 
 
@@ -133,6 +134,7 @@ async def cbq(c: Client, q: CallbackQuery):
                 pass
             
             Plugins.LISTENING_FOR = None
+            await q.edit_message_text("Bot is no longer listening to you", reply_markup=None)
             return
         func = ADMIN_REPLY_BACK[to_id]["forward"]
         await func(to_id, user_id, ADMIN_REPLY_BACK[to_id]["msg_id"], hide_sender_name=True)

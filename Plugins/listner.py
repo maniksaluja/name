@@ -37,7 +37,7 @@ async def _listen_to_owner_(c: Client, m: Message):
             IKB("Send", f"send_r:{Plugins.LISTENING_FOR}")
         ],
         [
-            IKB("Cancel", f"send_i:")
+            IKB("Cancel", f"send_i:{Plugins.LISTENING_FOR}")
         ]
     ])
 
