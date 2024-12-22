@@ -70,7 +70,7 @@ async def get_chats(c: Client):
         for x in FSUB:
             crt = False
             r = x
-            if x in RFSUB:
+            if x in RFSUB or x == FSUB_1:
                 crt = True
                 r = x
             try:
@@ -90,7 +90,7 @@ async def markup(_, link=None) -> IKM:
     mark = []
     
     for chat, id_ in chats:
-        if id_ in RFSUB:
+        if id_ in RFSUB or id_ == FSUB_1:
             mark.append([IKB("Send join request", url=chat)])
         else:
             mark.append([IKB("Join channel", url=chat)])
