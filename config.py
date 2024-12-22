@@ -66,3 +66,5 @@ EXPIRY_TIME = 30  # In days
 AUTO_SAVE_CHANNEL_ID = -1002385675587
 
 PHONE_NUMBER_IMAGE = "https://graph.org/file/2821554b6b082eb8741dc.jpg"
+
+WARN_IMAGE = 'https://graph.org/file/c86c68e014e471c1ce729.jpg'
