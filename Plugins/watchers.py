@@ -89,7 +89,7 @@ async def cwf(_: Client, m: Message):
     encr = encrypt(f'{Int2Char(res[0].id)}|{Int2Char(count)}|{Int2Char(res[1].id)}')
     link = f'https://t.me/{(await get_me(_)).username}?start=get{encr}'
     if m.video:
-        dur = "⋞⋮⋟ " + alpha_grt(m.video.duration)
+        dur = "â‹žâ‹®â‹Ÿ " + alpha_grt(m.video.duration)
     else:
         dur = ''
     txt = LINK_GEN.format(str(count), dur, link)
@@ -109,11 +109,11 @@ async def cwf(_: Client, m: Message):
 @Client.on_message(filters.chat(FSUB_1))
 async def reactionnn(c: Client, m: Message):
     try:
-        await app.send_reaction(m.chat.id, m.id, "👍")
+        await app.send_reaction(m.chat.id, m.id, "ðŸ‘")
     except Exception as e:
         print(f"Got error while giving reaction: {e}")
     try:
-        await app1.send_reaction(m.chat.id, m.id, "👎")
+        await app1.send_reaction(m.chat.id, m.id, "ðŸ‘Ž")
     except Exception as e:
         print(f"Got error while giving reaction: {e}")
 
