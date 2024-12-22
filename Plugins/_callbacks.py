@@ -64,6 +64,7 @@ async def cbq(c: Client, q: CallbackQuery):
         to_do: str = data.split("_")[1]
         reply_to: Message = q.message.reply_to_message
         if to_do== "approve":
+            await q.edit_message_text("Successfully forwarded message to final destination", reply_markup=None)
             if not reply_to:
                 await q.answer("Looks like someone have deleted the message I was replying to. I can't proceed further")
                 return
@@ -72,16 +73,15 @@ async def cbq(c: Client, q: CallbackQuery):
                 await c.forward_media_group(AFTER_FEEDBACK, FEEDBACK_CHANNEL, reply_to.id, hide_sender_name=True)
             else:
                 await reply_to.forward(AFTER_FEEDBACK, hide_sender_name=True)
-            await q.edit_message_text("Successfully forwarded message to final destination", reply_markup=None)
             return
 
         elif to_do == "reject":
+            await q.edit_message_text("Asked owner if he want to give comment to the user or not", reply_markup=None)
             kb = IKM([[IKB("Comment", f"feedback_r:{reply_to.forward_from.id}"), IKB("Ignore", f"feedback_i:{reply_to.forward_from.id}")]])
 
             await c.send_message(OWNER_ID, f"Do you want to say something to user who have given [this feedback]({reply_to.link})?", disable_web_page_preview=True, reply_markup=kb)
             ADMIN_REPLY_BACK[reply_to.forward_from.id] = {}
 
-            await q.edit_message_text("Asked owner if he want to give comment to the user or not", reply_markup=None)
             return
 
         elif to_do.startswith("r:"):
@@ -113,13 +113,13 @@ async def cbq(c: Client, q: CallbackQuery):
 
 
     if data == "confirm_send":
+        await q.edit_message_text("Thanks for your precious feedback", reply_markup=None)
         func = USER_LISTENING[user_id]["forward"]
         z: Message = await func(FEEDBACK_CHANNEL, q.from_user.id, USER_LISTENING[user_id]["msg_id"])
         kb = IKM([[IKB("Approve", "feedback_approve"), IKB("Reject", "feedback_reject")]])
         if isinstance(z, list):
             z = z[0]
         await z.reply_text(f"Feedback given by: {USER_LISTENING[user_id]['mention']}", reply_markup=kb)
-        await q.edit_message_text("Thanks for your precious feedback", reply_markup=None)
         try:
             USER_LISTENING.pop(user_id)
         except:
@@ -145,9 +145,9 @@ async def cbq(c: Client, q: CallbackQuery):
             Plugins.LISTENING_FOR = None
             await q.edit_message_text("Bot is no longer listening to you", reply_markup=None)
             return
+        await q.edit_message_text("Sent the reply successfully", reply_markup=None)
         func = ADMIN_REPLY_BACK[to_id]["forward"]
         await func(to_id, user_id, ADMIN_REPLY_BACK[to_id]["msg_id"], hide_sender_name=True)
-        await q.edit_message_text("Sent the reply successfully", reply_markup=None)
         try:
             ADMIN_REPLY_BACK.pop(to_id)
         except:

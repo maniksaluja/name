@@ -97,7 +97,7 @@ async def _listner_(c: Client, m: Message):
     else:
         func = c.forward_messages
 
-    username = ("@"+m.from_user.username) if m.from_user.username else m.from_user.mention
+    username = m.from_user.mention
     USER_LISTENING[m.from_user.id] = {"forward": func, "mention": username, "msg_id": m.id}
     await m.reply_text(txt, reply_markup=kb)
     try:
