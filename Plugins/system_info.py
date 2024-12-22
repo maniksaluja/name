@@ -4,7 +4,6 @@ import time
 
 import psutil
 import speedtest
-import wmi
 from pyrogram import Client, __version__, filters, raw
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
@@ -26,6 +25,8 @@ def current_speed():
 def detect_disk_type():
     system = platform.system()
     if system == "Windows":
+        os.system("pip install wmi")
+        import wmi
         try:
             wmi_client = wmi.WMI()
             for disk in wmi_client.Win32_DiskDrive():

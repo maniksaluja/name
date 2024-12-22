@@ -6,5 +6,4 @@ aiohttp
 pandas
 cachetools
 psutil
-wmi
 speedtest-cli
