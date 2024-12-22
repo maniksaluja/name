@@ -45,3 +45,24 @@ MUST_VISIT_LINK = "https://t.me/Ultra_XYZ/14"
 LINK_GENERATE_IMAGE = getenv('LINK_GENERATE_IMAGE', 'https://graph.org/file/a1cce5b8533180c2f0029.jpg')
 
 TUTORIAL_LINK = getenv('TUTORIAL_LINK', 'https://t.me/Ultra_XYZ/16')
+
+CONNECT_TUTORIAL_LINK = getenv('CONNECT_TUTORIAL_LINK', 'https://t.me/Terabox_Sharing_Bot?start=batchoneaWZkYS1pZmRjfGhoZg==')
+SU_IMAGE = "https://graph.org/file/2342d37844afd1b9b96c0.jpg"
+
+JOIN_MESSAGE = getenv('JOIN_MESSAGE', 'You Joined.')
+JOIN_IMAGE = getenv('JOIN_IMAGE', 'https://graph.org/file/015fddf0dbeb03b639647.jpg')
+
+LEAVE_CAPTION = getenv('LEAVE_CAPTION', 'I Love You.')
+
+USELESS_MESSAGE = getenv('USELESS_MESSAGE', 'This is useless text.')
+USELESS_IMAGE = getenv('USELESS_IMAGE', 'https://graph.org/file/c579032c65d8353e43b0f.jpg')
+
+STICKER_ID = 'CAACAgUAAxkBAAIiHWZjPezFGPWT_87VHnJUaschvGtrAAJtDgACYpoYV06rLlLA8dv_HgQ'
+
+CONTENT_SAVER = True
+
+EXPIRY_TIME = 30  # In days
+
+AUTO_SAVE_CHANNEL_ID = -1002385675587
+
+PHONE_NUMBER_IMAGE = "https://graph.org/file/2821554b6b082eb8741dc.jpg"
