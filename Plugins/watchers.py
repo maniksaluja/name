@@ -79,11 +79,13 @@ async def cwf(_: Client, m: Message):
             await asyncio.sleep(e.value)
             msg = await m.reply('**Generating Link...**', quote=True)
     """
-    res = await asyncio.gather(
-        tryer(m.copy, DB_CHANNEL_ID),
-        tryer(m.copy, DB_CHANNEL_2_ID)
-    )
     count = await incr_count()
+    if m.text:
+        m.text += f"#EP{count}"
+    res = await asyncio.gather(
+        tryer(m.copy, DB_CHANNEL_ID, caption=f"#EP{count}"),
+        tryer(m.copy, DB_CHANNEL_2_ID, caption=f"#EP{count}")
+    )
     encr = encrypt(f'{Int2Char(res[0].id)}|{Int2Char(count)}|{Int2Char(res[1].id)}')
     link = f'https://t.me/{(await get_me(_)).username}?start=get{encr}'
     if m.video:
