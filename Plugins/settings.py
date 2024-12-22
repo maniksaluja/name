@@ -51,6 +51,10 @@ def markup(dic):
             [
                 IKB('𝘈𝘶𝘵𝘰 𝘎𝘦𝘯𝘦𝘳𝘢𝘵𝘦', callback_data='answer'),
                 IKB(dic.get('generate', 10), callback_data='toggle_gen')
+            ],
+            [
+                IKB("Auto Forwarding", "answer"),
+                IKB(yes if dic.get('forwarding', True) else no, "toggle_fwd")
             ]
         ]
     )
@@ -61,6 +65,9 @@ dic = {}
 @Client.on_message(filters.command('settings') & filters.user(SUDO_USERS))
 async def settings(_, m):
     set = await get_settings()
+    if 'forwarding' not in set:
+        set['forwarding'] = True
+        
     txt = '**IT Helps To Change Bot Basic Settings..**'
     mark = markup(set)
     ok = await m.reply(txt, reply_markup=mark)

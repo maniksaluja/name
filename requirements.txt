@@ -6,3 +6,4 @@ aiohttp
 pandas
 cachetools
 psutil
+wmi

@@ -1,4 +1,6 @@
-from pyrogram import Client
+import time
+
+from pyrogram import Client, raw
 from pyrogram.errors.exceptions import MessageIdInvalid, MessageNotModified
 from pyrogram.types import CallbackQuery
 from pyrogram.types import InlineKeyboardButton as IKB
@@ -14,7 +16,7 @@ from templates import FEEDBACK_VOICE, FILE_PATH
 from . import ADMIN_REPLY_BACK, USER_LISTENING, current_listening, listner
 from .paid import pay_cbq
 from .settings import markup
-from .system_info import get_system_info
+from .system_info import current_speed, get_system_info
 
 
 @Client.on_callback_query()
@@ -172,12 +174,23 @@ async def cbq(c: Client, q: CallbackQuery):
 
     if data.startswith("info_"):
         info_abt = data.split("_")[1]
-        info, kb = get_system_info(info_abt)
-        txt = f"**Info about {info_abt}:**\n"
+        rnd = c.rnd_id()
 
+        start = time.perf_counter()
+        await c.invoke(raw.functions.Ping(ping_id=rnd))
+        ping = (time.perf_counter()-start) * 1000
+        
+
+
+        info, kb = get_system_info(info_abt)
+        txt = f"**Current Ping: {ping}**\n**Info about {info_abt}:**\n"
+            
         for key, value in info.items():
             txt += f"• {key}: `{value}`\n"
-
+        if info_abt == "network":
+            download, upload = current_speed()
+            txt += f"{download}\n"
+            txt += upload
         await q.edit_message_text(txt, reply_markup=kb)
         return
         
@@ -193,6 +206,9 @@ async def cbq(c: Client, q: CallbackQuery):
     # Define helper function for toggling settings
     async def toggle_setting(setting_key, default_value=False):
         settings = await get_settings()
+        if 'forwarding' not in settings:
+            settings['forwarding'] =True
+            
         if setting_key == "logs":
             toggle_able = ["both", "l1", "l2", False]
             index = (toggle_able.index(settings["logs"]) + 1) if toggle_able.index(settings["logs"]) != len(toggle_able)-1 else 0
@@ -215,7 +231,8 @@ async def cbq(c: Client, q: CallbackQuery):
         'toggle_image': 'image',
         'toggle_gen': 'generate',
         'toggle_save': 'auto_save',
-        'toggle_logs': 'logs'
+        'toggle_logs': 'logs',
+        'toggle_fwd': 'forwarding'
     }
 
     if data in toggle_actions:

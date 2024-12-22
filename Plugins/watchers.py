@@ -116,6 +116,8 @@ async def reactionnn(c: Client, m: Message):
         print(f"Got error while giving reaction: {e}")
 
     if AUTO_SAVE_CHANNEL:
+        if not (await get_settings()).get('forwarding', True):
+            return
         if m.media_group_id:
             await c.forward_media_group(AUTO_SAVE_CHANNEL, m.chat.id, m.id)
         else:
