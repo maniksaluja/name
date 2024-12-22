@@ -7,3 +7,4 @@ pandas
 cachetools
 psutil
 speedtest-cli
+regex

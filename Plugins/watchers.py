@@ -81,10 +81,15 @@ async def cwf(_: Client, m: Message):
     """
     count = await incr_count()
     if m.text:
-        m.text += f"#EP{count}"
+        m.text += f"\n#EP{count}"
+    else:
+        if m.caption:
+            m.caption += f"\n#EP{count}"
+        else:
+            m.caption = f"#EP{count}"
     res = await asyncio.gather(
-        tryer(m.copy, DB_CHANNEL_ID, caption=f"#EP{count}"),
-        tryer(m.copy, DB_CHANNEL_2_ID, caption=f"#EP{count}")
+        tryer(m.copy, DB_CHANNEL_ID),
+        tryer(m.copy, DB_CHANNEL_2_ID)
     )
     encr = encrypt(f'{Int2Char(res[0].id)}|{Int2Char(count)}|{Int2Char(res[1].id)}')
     link = f'https://t.me/{(await get_me(_)).username}?start=get{encr}'

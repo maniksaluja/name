@@ -20,7 +20,7 @@ from templates import (AUTO_DELETE_TEXT, CUSTOM_CAPTION, FILE_PATH,
 
 from . import AUTO_DELETE_STR, tryer
 from .block import block_dec
-from .delete_after import task_initiator
+from .delete_after import get_cur_ep, task_initiator
 from .encode_decode import Char2Int, decrypt
 
 members = {FSUB_1: [], FSUB_2: []} # {chat_id: [user_id]}
@@ -164,10 +164,15 @@ async def start(_: Client, m: Message):
             except:
                 msg = await _.get_messages(DB_CHANNEL_2_ID, Char2Int(spl[2]))
             await std.delete()
+            cap = CUSTOM_CAPTION
+            if CAP:=msg.caption:
+                ep = get_cur_ep(CAP)
+                if ep:
+                    cap = f"{CUSTOM_CAPTION}\n{ep}"
             if not prem:
-                ok = await msg.copy(user_id, caption=CUSTOM_CAPTION, reply_markup=voice_n_kb, protect_content=True)
+                ok = await msg.copy(user_id, caption=cap, reply_markup=voice_n_kb, protect_content=True)
             else:
-                ok = await msg.copy(user_id, caption=CUSTOM_CAPTION, reply_markup=voice_n_kb)
+                ok = await msg.copy(user_id, caption=cap, reply_markup=voice_n_kb)
             if AUTO_DELETE_TIME:
                 ok1 = await ok.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
                 haha = [ok1, ok]
@@ -223,7 +228,13 @@ async def start(_: Client, m: Message):
                         continue
                     if x.empty:
                         continue
-                    gg = await tryer(x.copy, user_id, caption=CUSTOM_CAPTION, reply_markup=voice_n_kb, protect_content=True)
+                    cap = CUSTOM_CAPTION
+                    if CAP:=x.caption:
+                        ep = get_cur_ep(CAP)
+                        if ep:
+                            cap = f"{CUSTOM_CAPTION}\n{ep}"
+                    
+                    gg = await tryer(x.copy, user_id, caption=cap, reply_markup=voice_n_kb, protect_content=True)
                     haha.append(gg)
                     await asyncio.sleep(1)
             else:
@@ -232,7 +243,13 @@ async def start(_: Client, m: Message):
                         continue
                     if x.empty:
                         continue
-                    gg = await tryer(x.copy, user_id, caption=CUSTOM_CAPTION, reply_markup=voice_n_kb)
+                    cap = CUSTOM_CAPTION
+                    if CAP:=x.caption:
+                        ep = get_cur_ep(CAP)
+                        if ep:
+                            cap = f"{CUSTOM_CAPTION}\n{ep}"
+                    
+                    gg = await tryer(x.copy, user_id, caption=cap, reply_markup=voice_n_kb)
                     haha.append(gg)
                     await asyncio.sleep(1)
                     # tasks.append(asyncio.create_task(x.copy(user_id)))
@@ -277,7 +294,13 @@ async def start(_: Client, m: Message):
                         continue
                     if x.empty:
                         continue
-                    gg = await tryer(x.copy, user_id, caption=CUSTOM_CAPTION, reply_markup=voice_n_kb, protect_content=True)
+                    cap = CUSTOM_CAPTION
+                    if CAP:=x.caption:
+                        ep = get_cur_ep(CAP)
+                        if ep:
+                            cap = f"{CUSTOM_CAPTION}\n{ep}"
+                    
+                    gg = await tryer(x.copy, user_id, caption=cap, reply_markup=voice_n_kb, protect_content=True)
                     haha.append(gg)
                     await asyncio.sleep(1)
             else:
@@ -286,7 +309,12 @@ async def start(_: Client, m: Message):
                         continue
                     if x.empty:
                         continue
-                    gg = await tryer(x.copy, user_id, caption=CUSTOM_CAPTION, reply_markup=voice_n_kb)
+                    cap = CUSTOM_CAPTION
+                    if CAP:=x.caption:
+                        ep = get_cur_ep(CAP)
+                        if ep:
+                            cap = f"{CUSTOM_CAPTION}\n{ep}"
+                    gg = await tryer(x.copy, user_id, caption=cap, reply_markup=voice_n_kb)
                     haha.append(gg)
                     await asyncio.sleep(1)
             await std.delete()
