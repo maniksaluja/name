@@ -21,7 +21,7 @@ API_HASH2 = getenv('API_HASH_BOT1', 'c65647776bb4e93defc9504571d2b990')  # Bot2 
 BOT_TOKEN = getenv('BOT_TOKEN', '7099022623:AAHF5XCTdVgREoJWvK6sRJedYIso35E0XpE')
 BOT_TOKEN_2 = getenv('BOT_TOKEN_2', '7867772211:AAEv6qY38CN2t9_8S-JGXnqsLFrPZkNv2y4')
 
-BUY_LINK = getenv("https://t.me/CuteGirlTG?text=%2A%2A%20I%20Want%20to%20Buy%20a%20download%20plan%20%2A%2A") #Link to the acc or channel on which user will be redirected when he clicks on Buy now in voice msg
+BUY_LINK = "https://t.me/CuteGirlTG?text=%2A%2A%20I%20Want%20to%20Buy%20a%20download%20plan%20%2A%2A" #Link to the acc or channel on which user will be redirected when he clicks on Buy now in voice msg
 OWNER_ID =int(getenv("OWNER_ID", 6604279354))
 SUDO_USERS = [int(x) for x in getenv('SUDO_USERS', '6604279354 6104594076').split()]
 SUDO_USERS.append(OWNER_ID)
