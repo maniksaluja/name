@@ -54,6 +54,10 @@ async def cbq(c: Client, q: CallbackQuery):
         return
 
     if data == "give_feedback":
+        if q.message.text:
+            await q.edit_message_text("Please wait for a while", reply_markup=None)
+        else:
+            await q.edit_message_caption("Please wait for a while", reply_markup=None)
         await q.message.reply_audio(FEEDBACK_VOICE, caption="You can take upto 5 minutes to send me a feedback\nAlso note that no commands will work in this duration you can sned /cancel to stop giving feedback")
         USER_LISTENING[user_id] = {}
         current_listening.append(user_id)
@@ -86,7 +90,7 @@ async def cbq(c: Client, q: CallbackQuery):
 
         elif to_do.startswith("r:"):
             if Plugins.LISTENING_FOR:
-                await q.message.reply_text(f"You are already replying to [this user](tg://user?id={Plugins.LISTENING_FOR})")
+                await q.message.reply_text(f"You are currently replying to [this user](tg://user?id={Plugins.LISTENING_FOR})")
                 return
             if Plugins.LISTENING_FOR not in ADMIN_REPLY_BACK:
                 await q.edit_message_text("Time's up dude you can't reply to this user anymore", reply_markup=None)

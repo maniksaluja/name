@@ -54,7 +54,6 @@ async def _listen_to_owner_(c: Client, m: Message):
     ADMIN_REPLY_BACK[Plugins.LISTENING_FOR] = {"forward": func, "to_user": Plugins.LISTENING_FOR, "msg_id": m.id}
 
     await m.reply_text(txt, reply_markup=kb)
-    Plugins.LISTENING_FOR = None
     m.stop_propagation()
     return
 
