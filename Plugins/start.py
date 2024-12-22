@@ -175,8 +175,8 @@ async def start(_: Client, m: Message):
                 ok = await msg.copy(user_id, caption=cap, reply_markup=voice_n_kb)
             if AUTO_DELETE_TIME:
                 ok1 = await ok.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
-                haha = [ok1, ok]
-                await task_initiator(haha, f'https://t.me/{me.username}?start=get{encr}')
+                haha = [ok]
+                await task_initiator(haha, f'https://t.me/{me.username}?start=get{encr}', ok1)
             return
         elif command.startswith('batchone'):
             encr = command[8:]
@@ -256,9 +256,8 @@ async def start(_: Client, m: Message):
             await std.delete()
             if AUTO_DELETE_TIME:
                 ok1 = await m.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
-                haha.append(ok1)
                 if haha:
-                    await task_initiator(haha, link)
+                    await task_initiator(haha, link, ok1)
             if okkie:
                 await okkie.delete()
             return
@@ -320,8 +319,7 @@ async def start(_: Client, m: Message):
             await std.delete()
             if AUTO_DELETE_TIME:
                 ok1 = await m.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
-                haha.append(ok1)
-                await task_initiator(haha, link)
+                await task_initiator(haha, link, ok1)
             if okkie:
                 await okkie.delete()
             return

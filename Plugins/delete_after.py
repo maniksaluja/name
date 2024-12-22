@@ -12,13 +12,13 @@ from templates import POST_DELETE_TEXT
 def get_cur_ep(txt: str, has_req: bool = True):
     if matches := findall(r"#EP\d+", txt):
         if not has_req:
-            return matches[-1].replace("#EP","")
+            return matches[-1].replace("#EP","").strip()
         return matches[-1]
     else:
         return 0
 
 
-async def Delete_task(m: List[Message], link=None):
+async def Delete_task(m: List[Message], link=None, to_edit: Message or None = None):
     await asyncio.sleep(AUTO_DELETE_TIME)
     z = m[-1]
     for i in m:
@@ -34,10 +34,11 @@ async def Delete_task(m: List[Message], link=None):
     if not cur:
         cur = await get_count()
     kb = InlineKeyboardMarkup([[InlineKeyboardButton("Get again", url=link)]])
-    await z.reply_text(POST_DELETE_TEXT.format(cur), reply_markup=kb)
+    if to_edit:
+        await to_edit.edit_text(POST_DELETE_TEXT.format(cur), reply_markup=kb)
     return
 
-async def task_initiator(m: List[Message], link=None):
+async def task_initiator(m: List[Message], link=None, to_edit: Message or None = None):
     if AUTO_DELETE_TIME:
-        asyncio.create_task(Delete_task(m, link))
+        asyncio.create_task(Delete_task(m, link, to_edit))
     return
