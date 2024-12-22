@@ -12,7 +12,7 @@ from templates import POST_DELETE_TEXT
 def get_cur_ep(txt: str, has_req: bool = True):
     if matches := findall(r"#EP\d+", txt):
         if not has_req:
-            matches[-1].replace("#EP","")
+            return matches[-1].replace("#EP","")
         return matches[-1]
     else:
         return 0
