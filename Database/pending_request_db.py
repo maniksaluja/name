@@ -6,7 +6,6 @@ db = db.pending_request
 
 
 async def insert_user(user_id: int, chat_id: int) -> None:
-    print("Inserted")
     await db.insert_one({"user": user_id, "chat": chat_id})
 
 async def delete_user(user_id: int, chat_id: int) -> None:

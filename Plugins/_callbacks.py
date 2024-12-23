@@ -26,7 +26,6 @@ async def cbq(c: Client, q: CallbackQuery):
     global USER_LISTENING
     global current_listening
     global ADMIN_REPLY_BACK
-    print(data)
     
     # Handle 'sharewithme' callback
     if data == 'sharewithme':

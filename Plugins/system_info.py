@@ -25,21 +25,22 @@ def current_speed():
 def detect_disk_type():
     system = platform.system()
     if system == "Windows":
-        os.system("pip install wmi")
-        import wmi
-        try:
-            wmi_client = wmi.WMI()
-            for disk in wmi_client.Win32_DiskDrive():
-                if disk.MediaType is None or "SSD" not in disk.MediaType:
-                    if hasattr(disk, "RotationRate") and disk.RotationRate == 0:
-                        type_ = "SSD"
-                    else:
-                        type_ = "HDD"
-                else:
-                    type_ = disk.MediaType
-                return disk.Caption, type_
-        except Exception as e:
-            return "N/A", "N/A"
+        # os.system("pip install wmi")
+        # import wmi
+        # try:
+        #     wmi_client = wmi.WMI()
+        #     for disk in wmi_client.Win32_DiskDrive():
+        #         if disk.MediaType is None or "SSD" not in disk.MediaType:
+        #             if hasattr(disk, "RotationRate") and disk.RotationRate == 0:
+        #                 type_ = "SSD"
+        #             else:
+        #                 type_ = "HDD"
+        #         else:
+        #             type_ = disk.MediaType
+        #         return disk.Caption, type_
+        # except Exception as e:
+        #     return "N/A", "N/A"
+        return "Can't detect on windows", "Can't detect on windows"
     elif system == "Linux":
         try:
             for disk in os.listdir('/sys/block'):

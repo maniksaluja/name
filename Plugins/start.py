@@ -55,7 +55,7 @@ async def check_fsub(user_id: int) -> bool:
             if not (x.status in [CMS.OWNER, CMS.ADMINISTRATOR, CMS.MEMBER]):
                 return False
         except:
-            if (await is_user_pending(user_id, y)):
+            if await is_user_pending(user_id, y):
                 continue
             return False
         
@@ -119,7 +119,7 @@ async def start_markup(_, feedback_req = False, tbelow = False) -> IKM:
     if not tbelow:
         mark = [[IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)], mark]
     else:
-        mark = [mark, IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)]
+        mark = [mark, [IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)]]
     if feedback_req:
         mark.append([IKB("Give Feedback", "give_feedback")])
     markup = IKM(mark)
@@ -143,6 +143,7 @@ async def start(_: Client, m: Message):
         voice_n_kb = None
     if not me:
         me = await _.get_me()
+    print(m.text)
     user_id = m.from_user.id
     if not await is_user(user_id):
         await add_user(user_id)
@@ -160,7 +161,8 @@ async def start(_: Client, m: Message):
             encr = command[3:]
             if not await check_fsub(user_id):
                 mark = await markup(_, f'https://t.me/{me.username}?start=get{encr}')
-                return await m.reply(TRY_AGAIN_TEXT.format(m.from_user.mention), reply_markup=mark)
+                await m.reply(TRY_AGAIN_TEXT.format(m.from_user.mention), reply_markup=mark)
+                return 
             std = await m.reply_sticker(STICKER_ID)
             spl = decrypt(encr).split('|')
             try:
@@ -331,7 +333,8 @@ async def start(_: Client, m: Message):
                 await okkie.delete()
             return
     else:
-        await m.reply(START_MESSAGE_2.format(m.from_user.mention), reply_markup=await start_markup(_, tbelow=True))
+        await m.reply_text(START_MESSAGE_2.format(m.from_user.mention), reply_markup=await start_markup(_, tbelow=True))
+        
 
 @Client.on_message(filters.command('start') & filters.private)
 async def start_func(_, m: Message):
@@ -339,8 +342,10 @@ async def start_func(_, m: Message):
     if user_id in control_batch:
         return
     control_batch.append(user_id)
+
     try:
         await start(_, m)
     except:
         pass
+
     control_batch.remove(user_id) if user_id in control_batch else None

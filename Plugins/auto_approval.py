@@ -19,7 +19,6 @@ this is just useless file there are no need of two auto approval code it is alre
 #     """
 #     chat = request.chat
 #     userId = request.from_user.id
-#     print(userId)
 #     await insert_user(userId, chat.id) #fail safe insert user at starting so even if the approving fails the user can still access the contents
 #     if chat.id != FSUB_1:
 #         return
@@ -30,7 +29,6 @@ this is just useless file there are no need of two auto approval code it is alre
 #     try:
 #         # Approve the chat join request
 #         iSapproved = await request.approve()
-#         print(iSapproved)
 #         if not iSapproved:
 #             print(f"Failed to approve join request of the user: {userId} in chat: {chat.id}")
 #             return
