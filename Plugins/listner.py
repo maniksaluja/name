@@ -34,14 +34,14 @@ async def _listen_to_owner_(c: Client, m: Message):
 
     kb = IKM([
         [
-            IKB("𝘚𝘦𝘯𝘥", f"send_r:{Plugins.LISTENING_FOR}")
+            IKB("𝘠𝘦𝘴 𝘐 𝘢𝘮 𝘚𝘶𝘳𝘦", f"send_r:{Plugins.LISTENING_FOR}")
         ],
         [
-            IKB("𝘊𝘢𝘯𝘤𝘦𝘭", f"send_i:{Plugins.LISTENING_FOR}")
+            IKB("𝘕𝘰 𝘐 𝘈𝘮 𝘕𝘰𝘵 𝘚𝘶𝘳𝘦", f"send_i:{Plugins.LISTENING_FOR}")
         ]
     ])
 
-    txt = "Are you sure you want to send it as reply??"
+    txt = "**Are You Sure You Want To Send Tt As Reply??**"
 
     if media_groupp.get(m.from_user.id, None):
         return
