@@ -13,6 +13,7 @@ from config import (AUTO_DELETE_TIME, CONTENT_SAVER, DB_CHANNEL_2_ID,
 from Database.encr import get_encr
 from Database.pending_request_db import is_user_pending
 from Database.privileges import get_privileges
+from Database.settings import get_settings
 from Database.users import add_user, is_user
 from main import app
 from templates import (AUTO_DELETE_TEXT, CUSTOM_CAPTION, FILE_PATH,
@@ -129,7 +130,8 @@ control_batch = []
 @block_dec
 async def start(_: Client, m: Message):
     global me
-    if FILE_PATH:
+    is_enabled_voice = (await get_settings()).get('download', True)
+    if FILE_PATH and is_enabled_voice:
         voice_n_kb = IKM(
             [
                 [
@@ -149,6 +151,7 @@ async def start(_: Client, m: Message):
         prem = (await get_privileges(user_id))[2]
     else:
         prem = True
+    
     txt = m.text.split()
     okkie = None
     if len(txt) > 1:
@@ -173,9 +176,10 @@ async def start(_: Client, m: Message):
                 if ep:
                     cap = f"{CUSTOM_CAPTION}\n{ep}"
             if not prem:
-                ok = await msg.copy(user_id, caption=cap, reply_markup=voice_n_kb, protect_content=True)
+                
+                ok = await tryer(msg.copy, user_id, caption=cap, reply_markup=voice_n_kb, protect_content=True)
             else:
-                ok = await msg.copy(user_id, caption=cap, reply_markup=voice_n_kb)
+                ok = await tryer(msg.copy, user_id, caption=cap, reply_markup=voice_n_kb)
             if AUTO_DELETE_TIME:
                 ok1 = await ok.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
                 haha = [ok]

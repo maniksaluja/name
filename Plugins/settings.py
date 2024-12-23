@@ -1,5 +1,4 @@
 import asyncio
-from time import time
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton as IKB
@@ -72,6 +71,8 @@ async def settings(_, m):
     if 'forwarding' not in set:
         set['forwarding'] = True
         
+    if 'download' not in set:
+        set['download'] = True
     txt = '**IT Helps To Change Bot Basic Settings..**'
     mark = markup(set)
     ok = await m.reply(txt, reply_markup=mark)
