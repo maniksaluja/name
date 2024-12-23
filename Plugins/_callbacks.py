@@ -91,7 +91,7 @@ async def cbq(c: Client, q: CallbackQuery):
 
         elif to_do.startswith("r:"):
             if Plugins.LISTENING_FOR:
-                await q.message.reply_text(f"Okey Now You Can Type Note For [this user](tg://user?id={Plugins.LISTENING_FOR})")
+                await q.message.reply_text(f"**Okey Now You Can Type Note For** [this user](tg://user?id={Plugins.LISTENING_FOR})")
                 return
             if Plugins.LISTENING_FOR not in ADMIN_REPLY_BACK:
                 await q.edit_message_text("Time's UP", reply_markup=None)
@@ -100,7 +100,7 @@ async def cbq(c: Client, q: CallbackQuery):
             u_id: int = int(to_do.split(":")[-1])
             Plugins.LISTENING_FOR = u_id
             ADMIN_REPLY_BACK[Plugins.LISTENING_FOR] = {}
-            await q.message.reply_text("Okay Now You Can Type Your Message' If You Want to Stop This Proses Use /cancel")
+            await q.message.reply_text("**Okay Now You Can Type Your Message' If You Want to Stop This Proses Use** /cancel")
             try:
                 await q.edit_message_reply_markup(None)
             except MessageNotModified:
