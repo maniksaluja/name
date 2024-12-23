@@ -238,13 +238,14 @@ async def cbq(c: Client, q: CallbackQuery):
         'toggle_gen': 'generate',
         'toggle_save': 'auto_save',
         'toggle_logs': 'logs',
-        'toggle_fwd': 'forwarding'
+        'toggle_fwd': 'forwarding',
+        'toggle_dl': 'download'
     }
 
     if data in toggle_actions:
         setting_key = toggle_actions[data]
         settings, mark = await toggle_setting(setting_key)
-        await q.answer()
+        await q.answer("Updating values...")
         await q.edit_message_reply_markup(reply_markup=mark)
 
     # Handle 'activate' and 'toggle' prefixes (paid-related actions)

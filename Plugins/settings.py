@@ -55,6 +55,10 @@ def markup(dic):
             [
                 IKB("Auto Forwarding", "answer"),
                 IKB(yes if dic.get('forwarding', True) else no, "toggle_fwd")
+            ],
+            [
+                IKB("Download button", "answer"),
+                IKB(yes if dic.get('download', True) else no, "toggle_dl")
             ]
         ]
     )

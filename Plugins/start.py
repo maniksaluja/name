@@ -144,7 +144,7 @@ async def start(_: Client, m: Message):
     user_id = m.from_user.id
     if not await is_user(user_id):
         await add_user(user_id)
-        return await m.reply(START_MESSAGE.format(m.from_user.mention), reply_markup=await start_markup(_))
+        return await m.reply(START_MESSAGE.format(m.from_user.mention), reply_markup=await start_markup(_, tbelow=True))
     if CONTENT_SAVER:
         prem = (await get_privileges(user_id))[2]
     else:
@@ -327,7 +327,7 @@ async def start(_: Client, m: Message):
                 await okkie.delete()
             return
     else:
-        await m.reply(START_MESSAGE_2.format(m.from_user.mention), reply_markup=await start_markup(_))
+        await m.reply(START_MESSAGE_2.format(m.from_user.mention), reply_markup=await start_markup(_, tbelow=True))
 
 @Client.on_message(filters.command('start') & filters.private)
 async def start_func(_, m: Message):
