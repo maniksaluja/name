@@ -100,7 +100,7 @@ async def cbq(c: Client, q: CallbackQuery):
             u_id: int = int(to_do.split(":")[-1])
             Plugins.LISTENING_FOR = u_id
             ADMIN_REPLY_BACK[Plugins.LISTENING_FOR] = {}
-            await q.message.reply_text("")
+            await q.message.reply_text("Okay Now You Can Type Your Message' If You Want to Stop This Proses Use /cancel")
             try:
                 await q.edit_message_reply_markup(None)
             except MessageNotModified:
