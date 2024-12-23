@@ -13,7 +13,7 @@ from Database.count import incr_count
 from Database.count_2 import incr_count_2
 from Database.encr import update
 from Database.settings import get_settings
-from templates import LINK_GEN, CUSTOM_CAPTION
+from templates import CUSTOM_CAPTION, LINK_GEN
 
 from . import alpha_grt, get_logs_channel, tryer
 from .encode_decode import Int2Char, encrypt

@@ -72,11 +72,13 @@ async def cbq(c: Client, q: CallbackQuery):
             if not reply_to:
                 await q.answer("Looks like someone have deleted the message I was replying to. I can't proceed further")
                 return
-
+            kb = IKM([[IKB("Contact me", url="https://t.me/CuteGirlTG")]])
             if reply_to.media_group_id:
-                await c.forward_media_group(AFTER_FEEDBACK, FEEDBACK_CHANNEL, reply_to.id, hide_sender_name=True)
+                x = await c.forward_media_group(AFTER_FEEDBACK, FEEDBACK_CHANNEL, reply_to.id, hide_sender_name=True,)
+                await x[0].reply_text("Media group detected", reply_markup=kb)
             else:
-                await reply_to.forward(AFTER_FEEDBACK, hide_sender_name=True)
+                await reply_to.copy(AFTER_FEEDBACK, reply_markup=kb)
+            
             return
 
         elif to_do == "reject":
