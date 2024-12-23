@@ -40,11 +40,11 @@ AUTO_SAVE_CHANNEL = int(getenv("AUTO_SAVE_CHANNEL", -1002385675587)) #Channel wh
 
 AUTO_DELETE_TIME = int(getenv('AUTO_DELETE_TIME', '60'))  # Enter time in seconds, keep it 0 for disabling.
 
-MUST_VISIT_LINK = "https://t.me/Ultra_XYZ/14"
+MUST_VISIT_LINK = "https://t.me/Ultra_XYZ/16"
 
 LINK_GENERATE_IMAGE = getenv('LINK_GENERATE_IMAGE', 'https://graph.org/file/a1cce5b8533180c2f0029.jpg')
 
-TUTORIAL_LINK = getenv('TUTORIAL_LINK', 'https://t.me/Ultra_XYZ/16')
+TUTORIAL_LINK = getenv('TUTORIAL_LINK', 'https://t.me/Ultra_XYZ/14')
 
 CONNECT_TUTORIAL_LINK = getenv('CONNECT_TUTORIAL_LINK', 'https://t.me/Terabox_Sharing_Bot?start=batchoneaWZkYS1pZmRjfGhoZg==')
 SU_IMAGE = "https://graph.org/file/2342d37844afd1b9b96c0.jpg"
