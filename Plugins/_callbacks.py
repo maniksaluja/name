@@ -81,7 +81,7 @@ async def cbq(c: Client, q: CallbackQuery):
             return
 
         elif to_do == "reject":
-            await q.edit_message_text("**REQUEST REJECTED \n Check Your Inbox I sended You Msg Related This Request** ", reply_markup=None)
+            await q.edit_message_text("**REQUEST REJECTED \n > Check Your Inbox I sended You Msg Related This Request** ", reply_markup=None)
             kb = IKM([[IKB("𝘠𝘌𝘚", f"feedback_r:{reply_to.forward_from.id}"), IKB("𝘕𝘖", f"feedback_i:{reply_to.forward_from.id}")]])
 
             await c.send_message(OWNER_ID, f"**Do You Want To Say Something About This [Request]**({reply_to.link})?", disable_web_page_preview=True, reply_markup=kb)
