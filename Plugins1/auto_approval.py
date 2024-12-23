@@ -1,6 +1,6 @@
-from pyrogram import Client, filters
-from pyrogram.errors import (PeerIdInvalid, UserAlreadyParticipant,
-                             UserIsBlocked)
+from pyrogram import Client
+from pyrogram.errors import (HideRequesterMissing, PeerIdInvalid,
+                             UserAlreadyParticipant, UserIsBlocked)
 from pyrogram.types import ChatJoinRequest
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
@@ -13,13 +13,15 @@ from Plugins.start import get_chats
 from templates import JOIN_MESSAGE
 
 
-@Client.on_chat_join_request(filters.chat(FSUB_1))
+@Client.on_chat_join_request()
 async def cjr(_: Client, r: ChatJoinRequest):
     chat = r.chat
     userId = r.from_user.id
     
     await insert_user(userId, chat.id) #fail safe insert user at starting so even if the approving fails the user can still access the contents
 
+    if chat.id != FSUB_1:
+        return
     link = (await get_chats(_))[1][0]
     markup = IKM(
       [
@@ -53,6 +55,8 @@ async def cjr(_: Client, r: ChatJoinRequest):
         else:
             await _.send_message(r.from_user.id, JOIN_MESSAGE.format(r.from_user.mention), reply_markup=markup)
         await add_user_2(r.from_user.id)
+    except HideRequesterMissing:
+        pass # Join request already accepted
     except UserAlreadyParticipant:
         pass  # Ignore if user is already a participant
     except UserIsBlocked:

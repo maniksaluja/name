@@ -1,6 +1,5 @@
 import asyncio
 import os
-import time
 
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait
@@ -9,15 +8,15 @@ from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 from pyrogram.types import Message
 
-from config import (API_HASH, API_ID, AUTO_DELETE_TIME, AUTO_SAVE_CHANNEL_ID,
-                    USELESS_IMAGE, WARN_IMAGE)
-from Database.auto_delete_2 import get_2, get_all_2, update_2
+from config import (API_HASH, API_ID, AUTO_SAVE_CHANNEL_ID, USELESS_IMAGE,
+                    WARN_IMAGE)
 from Database.count_2 import incr_count_2
 from Database.privileges import get_privileges
 from Database.sessions import get_session
 from Database.settings import get_settings
 from main import app as paa
-from templates import AUTO_DELETE_TEXT, POST_DELETE_TEXT, USELESS_MESSAGE
+from Plugins.delete_after import task_initiator
+from templates import AUTO_DELETE_TEXT, USELESS_MESSAGE
 
 from . import AUTO_DELETE_STR, tryer
 from .start import start_markup as build
@@ -109,9 +108,9 @@ async def save(C: Client, M: Message):
                 pass
         if settings['auto_save']:
             await cop.copy(AUTO_SAVE_CHANNEL_ID, reply_markup=None)
-        cops.append(cop.id)
+        cops.append(cop)
     ok = await paa.send_message(M.from_user.id, AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
-    await update_2(M.from_user.id, [cops, ok.id, count, time.time()])
+    await task_initiator(cops, None, ok, count)
 
 @Client.on_message(filters.command('bot'))
 async def bot(_, m):
@@ -140,22 +139,23 @@ async def bot(_, m):
     except:
         return await m.reply('Session Expired.')
     
-async def task():
-    while True:
-        x = await get_all_2()
-        for y in x:
-            await asyncio.sleep(1)  # Delay per item processing
-            lis = await get_2(y)
-            if not lis:
-                continue
-            if int(time.time()-lis[3]) < AUTO_DELETE_TIME:
-                continue
-            await tryer(paa.delete_messages, y, lis[0])
-            try:
-                await tryer(paa.edit_message_text, y, lis[1], POST_DELETE_TEXT.format(lis[2]))
-            except:
-                pass
-            await update_2(y, [])
-        await asyncio.sleep(10)  # Delay for next task cycle
+# async def task():
+#     while True:
+#         x = await get_all_2()
+#         for y in x:
+#             await asyncio.sleep(1)  # Delay per item processing
+#             lis = await get_2(y)
+#             if not lis:
+#                 continue
+#             if int(time.time()-lis[3]) < AUTO_DELETE_TIME:
+#                 continue
+#             await tryer(paa.delete_messages, y, lis[0])
+#             try:
+#                 await tryer(paa.edit_message_text, y, lis[1], POST_DELETE_TEXT.format(lis[2]))
+#             except:
+#                 pass
+#             await update_2(y, [])
+#         await asyncio.sleep(10)  # Delay for next task cycle
 
-asyncio.create_task(task())
+# asyncio.create_task(task())
+#No longer needed alreaedy handled in delate after

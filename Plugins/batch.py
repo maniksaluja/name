@@ -1,5 +1,6 @@
 import asyncio
-import random  # Import random module
+import random
+from typing import List  # Import random module
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton as IKB
@@ -12,7 +13,7 @@ from Database.count import incr_count
 from Database.count_2 import incr_count_2
 from Database.encr import update
 from Database.settings import get_settings
-from templates import LINK_GEN
+from templates import LINK_GEN, CUSTOM_CAPTION
 
 from . import alpha_grt, get_logs_channel, tryer
 from .encode_decode import Int2Char, encrypt
@@ -70,7 +71,7 @@ async def cancel(client, message):
 async def end(client: Client, message: Message):
     if not message.from_user.id in dic:
         return
-    messages = dic[message.from_user.id]
+    messages: List[Message] = dic[message.from_user.id]
     dic.pop(message.from_user.id)
     if not messages:
         return
@@ -81,9 +82,10 @@ async def end(client: Client, message: Message):
     for msg in messages:
         if not msg.video:
             all_vid = False
-        new = await tryer(msg.copy, DB_CHANNEL_ID, caption="#batch")
+         
+        new = await tryer(msg.copy, DB_CHANNEL_ID, caption=CUSTOM_CAPTION)
         dest_ids.append(new.id)
-        new = await tryer(msg.copy, DB_CHANNEL_2_ID, caption="#batch")
+        new = await tryer(msg.copy, DB_CHANNEL_2_ID, caption=CUSTOM_CAPTION)
         dest_ids_2.append(new.id)
         
         # Add only delay, no messages to user

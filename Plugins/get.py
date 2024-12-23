@@ -1,22 +1,21 @@
 import os
-import time
 
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 
-from config import (API_HASH, API_ID, AUTO_SAVE_CHANNEL_ID, DB_CHANNEL_ID,
-                    SUDO_USERS, USELESS_IMAGE)
-from Database.auto_delete_2 import update_2
+from config import (API_HASH, API_ID, AUTO_SAVE_CHANNEL_ID, SUDO_USERS,
+                    USELESS_IMAGE)
 from Database.count_2 import incr_count_2
 from Database.privileges import get_privileges
 from Database.sessions import get_session
 from Database.settings import get_settings
 # from main import ClientLike
-from templates import AUTO_DELETE_TEXT, LINK_GEN, USELESS_MESSAGE
+from templates import AUTO_DELETE_TEXT, USELESS_MESSAGE
 
 from . import AUTO_DELETE_STR, tryer
+from .delete_after import task_initiator
 from .encode_decode import *
 from .start import start_markup as build
 
@@ -92,7 +91,7 @@ async def get(_, m):
     await cop.copy(AUTO_SAVE_CHANNEL_ID, reply_markup=None)
   count = await incr_count_2()
   ok = await m.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
-  await update_2(id, [cop.id, ok.id, count, time.time()])
+  await task_initiator([cop], None, ok, count)
   await cyapa.delete()
   og.remove(id)
   return True
@@ -165,7 +164,7 @@ async def pbatch(_, m):
     pass
   count = await incr_count_2()
   ok = await m.reply(AUTO_DELETE_TEXT.format(AUTO_DELETE_STR))
-  await update_2(id, [[x.id for x in dest_ids], ok.id, count, time.time()])
+  await task_initiator(dest_ids, None, ok, count)
   pbd.remove(id) if id in pbd else None
   if sets['auto_save']:
     for x in dest_ids:

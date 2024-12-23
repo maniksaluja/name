@@ -1,47 +1,53 @@
-from typing import List
 
-from pyrogram import Client, filters
-from pyrogram.types import Message, User
+from pyrogram import Client
+from pyrogram.enums import ChatMemberStatus as CMS
+from pyrogram.types import ChatMemberUpdated
 
-from config import FSUB, RFSUB
+from config import FSUB, JOIN_IMAGE, RFSUB
 from Database.pending_request_db import delete_user
 from Database.settings import get_settings
 from Plugins.start import start_markup
-from templates import LEAVE_MESSAGE
+from templates import JOIN_MESSAGE, LEAVE_MESSAGE
 
 if RFSUB and RFSUB[0]:
     FSUB = FSUB + RFSUB 
 
-
-@Client.on_message(filters.new_chat_members | filters.left_chat_member)
-async def jl(_: Client, m: Message):
+@Client.on_chat_member_updated()
+async def idk(c: Client, j: ChatMemberUpdated):
     settings = await get_settings()
-    markup = await start_markup(_)
-    if m.new_chat_members:
-        users: List[User] = m.new_chat_members
-        for user in users:
-            await delete_user(user.id, m.chat.id)
-        """
+    if not (settings.get('join') or settings['leave']):
+        return
+    chat_id = j.chat.id
+    markup = await start_markup(c)
+
+    if member := j.new_chat_member:
+        await delete_user(member.user.id, chat_id)
+
         if not settings['join']:
             return
         try:
             if JOIN_IMAGE:
-                await _.send_photo(user.id, JOIN_IMAGE, caption=JOIN_MESSAGE, reply_markup=markup)
+                await c.send_photo(member.user.id, JOIN_IMAGE, caption=JOIN_MESSAGE, reply_markup=markup)
             else:
-                await _.send_message(user.id, JOIN_MESSAGE, reply_markup=markup)
+                await c.send_message(member.user.id, JOIN_MESSAGE, reply_markup=markup)
         except Exception as e:
             print(e)
-        """
-
-    else:
-        if not settings['leave']:
-            return
+    elif member := j.old_chat_member:
+        print(member)
         try:
-            user: User = m.left_chat_member
+            if member.status != CMS.LEFT:
+                return
+        except:
+            pass
+        try:
             # if LEAVE_IMAGE:
-            #     await _.send_photo(user.id, LEAVE_IMAGE, caption=LEAVE_MESSAGE, reply_markup=markup)
+            #     await c.send_photo(member.id, LEAVE_IMAGE, caption=LEAVE_MESSAGE, reply_markup=markup)
             # else:
-            #     await _.send_message(user.id, LEAVE_MESSAGE, reply_markup=markup)
-            await _.send_voice(user.id, 'Voice/uff.ogg', caption=LEAVE_MESSAGE, reply_markup=markup)
+            #     await c.send_message(member.id, LEAVE_MESSAGE, reply_markup=markup)
+            await c.send_voice(member.user.id, 'Voice/uff.ogg', caption=LEAVE_MESSAGE, reply_markup=markup)
         except Exception as e:
             print(e)
+    
+    else:
+        print("This update is missing new chat member or old chat member attribute")
+        return
