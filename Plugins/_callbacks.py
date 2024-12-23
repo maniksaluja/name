@@ -57,7 +57,7 @@ async def cbq(c: Client, q: CallbackQuery):
             await q.edit_message_text("**Generating Request....**", reply_markup=None)
         else:
             await q.edit_message_caption("**Generating Request......**", reply_markup=None)
-        await q.message.reply_audio(FEEDBACK_VOICE, caption=">**• Share your content or content request below** \n > **• Mention any issues, suggestions, or queries**\n > ** •Once you're done, click 'Sure' to forward your message directly to the admin for review** \n\n**THANK YOU ✨**")
+        await q.message.reply_audio(FEEDBACK_VOICE, caption="**• Share your content or content request below \n • Mention any issues, suggestions, or queries \n• Once you're done, click 'Sure' to forward your message directly to the admin for review \n\nTHANK YOU ✨**")
         USER_LISTENING[user_id] = {}
         current_listening.append(user_id)
         await q.message.delete()
@@ -84,7 +84,7 @@ async def cbq(c: Client, q: CallbackQuery):
             await q.edit_message_text("**REQUEST REJECTED \n Check Your Inbox I sended You Msg Related This Request** ", reply_markup=None)
             kb = IKM([[IKB("𝘠𝘌𝘚", f"feedback_r:{reply_to.forward_from.id}"), IKB("𝘕𝘖", f"feedback_i:{reply_to.forward_from.id}")]])
 
-            await c.send_message(OWNER_ID, f"Do You Want To Say Something About This[Request]({reply_to.link})?", disable_web_page_preview=True, reply_markup=kb)
+            await c.send_message(OWNER_ID, f"**Do You Want To Say Something About This [Request]**({reply_to.link})?", disable_web_page_preview=True, reply_markup=kb)
             ADMIN_REPLY_BACK[reply_to.forward_from.id] = {}
 
             return
@@ -100,14 +100,14 @@ async def cbq(c: Client, q: CallbackQuery):
             u_id: int = int(to_do.split(":")[-1])
             Plugins.LISTENING_FOR = u_id
             ADMIN_REPLY_BACK[Plugins.LISTENING_FOR] = {}
-            await q.message.reply_text("What")
+            await q.message.reply_text("")
             try:
                 await q.edit_message_reply_markup(None)
             except MessageNotModified:
                 pass
             return
         elif to_do.startswith("i:"):
-            await q.edit_message_text("Understand", reply_markup=None)
+            await q.edit_message_text("**Okey Request Rejected**", reply_markup=None)
             u_id: int = int(to_do.split(":")[-1])
             try:
                 ADMIN_REPLY_BACK.pop(u_id)
