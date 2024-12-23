@@ -22,8 +22,8 @@ async def _listen_to_owner_(c: Client, m: Message):
     global ADMIN_REPLY_BACK
     global media_groupp
 
-    if m.text == "/cancel":
-        await m.reply_text("Bot is no longer listening to you.")
+    if m.text == "/start":
+        await m.reply_text("**Request Terminated By You**")
         try:
             ADMIN_REPLY_BACK.pop(Plugins.LISTENING_FOR)
         except:
@@ -34,10 +34,10 @@ async def _listen_to_owner_(c: Client, m: Message):
 
     kb = IKM([
         [
-            IKB("Send", f"send_r:{Plugins.LISTENING_FOR}")
+            IKB("𝘚𝘦𝘯𝘥", f"send_r:{Plugins.LISTENING_FOR}")
         ],
         [
-            IKB("Cancel", f"send_i:{Plugins.LISTENING_FOR}")
+            IKB("𝘊𝘢𝘯𝘤𝘦𝘭", f"send_i:{Plugins.LISTENING_FOR}")
         ]
     ])
 
@@ -63,8 +63,9 @@ async def _listner_(c: Client, m: Message):
     global media_groupp
     global current_listening
 
-    if m.text == "/cancel":
-        await m.reply_text("Bot is no longer listening to you.")
+    if m.text == "/start":
+        await m.reply_text(" **Request Terminated By You** ")
+      
         try:
             USER_LISTENING.pop(m.from_user.id)
         except:
@@ -78,15 +79,15 @@ async def _listner_(c: Client, m: Message):
     kb = IKM(
         [
             [
-                IKB("Confirm", f"confirm_send")
+                IKB("𝘠𝘦𝘴 𝘐 𝘈𝘮 𝘚𝘶𝘳𝘦", f"confirm_send")
             ],
             [
-                IKB("Cancel", "don_t_send")
+                IKB("𝘕𝘰 𝘐 𝘈𝘮 𝘕𝘰𝘵", "don_t_send")
             ]
         ]
     )
 
-    txt = "Are you sure you want to send it as feedback??"
+    txt = "**Are You Sure this is your Request ??**"
 
     if media_groupp.get(m.from_user.id, None):
         return
