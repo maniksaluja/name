@@ -102,7 +102,7 @@ async def markup(_, link=None) -> IKM:
     markup = IKM(mark)
     return markup
 
-async def start_markup(_, feedback_req = False) -> IKM:
+async def start_markup(_, feedback_req = False, tbelow = False) -> IKM:
     global chats
     if not chats:
         chats = await get_chats(_)
@@ -110,12 +110,15 @@ async def start_markup(_, feedback_req = False) -> IKM:
     
     for link, i in chats:
         if i == FSUB_1:
-            mark.append(IKB("FSUB1", url=link))
+            mark.append(IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=link))
         elif i == FSUB_2:
-            mark.append(IKB("FSUB2", url=link))
+            mark.append(IKB('ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ', url=link))
         else:
             continue
-    mark = [[IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)], mark]
+    if not tbelow:
+        mark = [[IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)], mark]
+    else:
+        mark = [mark, IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)]
     if feedback_req:
         mark.append([IKB("Give Feedback", "give_feedback")])
     markup = IKM(mark)

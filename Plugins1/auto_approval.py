@@ -64,4 +64,4 @@ async def cjr(_: Client, r: ChatJoinRequest):
     except PeerIdInvalid:
         print(f"Cannot send message to user {r.from_user.id}, invalid peer ID.")
     except Exception as e:
-        print(e)
+        print("In auto approval Plugins1"+e)
