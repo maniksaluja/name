@@ -67,7 +67,7 @@ async def cbq(c: Client, q: CallbackQuery):
         to_do: str = data.split("_")[1]
         reply_to: Message = q.message.reply_to_message
         if to_do== "approve":
-            await q.edit_message_text("Successfully forwarded message to final destination", reply_markup=None)
+            await q.edit_message_text("**This Request Successfully Uploaded On Share&Care**", reply_markup=None)
             if not reply_to:
                 await q.answer("Looks like someone have deleted the message I was replying to. I can't proceed further")
                 return
@@ -81,26 +81,26 @@ async def cbq(c: Client, q: CallbackQuery):
             return
 
         elif to_do == "reject":
-            await q.edit_message_text("Asked owner if he want to give comment to the user or not", reply_markup=None)
-            kb = IKM([[IKB("Comment", f"feedback_r:{reply_to.forward_from.id}"), IKB("Ignore", f"feedback_i:{reply_to.forward_from.id}")]])
+            await q.edit_message_text("**REQUEST REJECTED \n Check Your Inbox I sended You Msg Related This ", reply_markup=None)
+            kb = IKM([[IKB("𝘠𝘌𝘚", f"feedback_r:{reply_to.forward_from.id}"), IKB("𝘕𝘖", f"feedback_i:{reply_to.forward_from.id}")]])
 
-            await c.send_message(OWNER_ID, f"Do you want to say something to user who have given [this feedback]({reply_to.link})?", disable_web_page_preview=True, reply_markup=kb)
+            await c.send_message(OWNER_ID, f"Do You Want To Say Something About This[Request]({reply_to.link})?", disable_web_page_preview=True, reply_markup=kb)
             ADMIN_REPLY_BACK[reply_to.forward_from.id] = {}
 
             return
 
         elif to_do.startswith("r:"):
             if Plugins.LISTENING_FOR:
-                await q.message.reply_text(f"You are currently replying to [this user](tg://user?id={Plugins.LISTENING_FOR})")
+                await q.message.reply_text(f"Okey Now You Can Type Note For [this user](tg://user?id={Plugins.LISTENING_FOR})")
                 return
             if Plugins.LISTENING_FOR not in ADMIN_REPLY_BACK:
-                await q.edit_message_text("Time's up dude you can't reply to this user anymore", reply_markup=None)
+                await q.edit_message_text("Time's UP", reply_markup=None)
                 Plugins.LISTENING_FOR = None
 
             u_id: int = int(to_do.split(":")[-1])
             Plugins.LISTENING_FOR = u_id
             ADMIN_REPLY_BACK[Plugins.LISTENING_FOR] = {}
-            await q.message.reply_text("What do you want to reply to user give me something.\nNote that any command from you will not work right now if u don't want to reply anymore just send /cancel")
+            await q.message.reply_text("What")
             try:
                 await q.edit_message_reply_markup(None)
             except MessageNotModified:
