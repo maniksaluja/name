@@ -37,7 +37,7 @@ async def cbq(c: Client, q: CallbackQuery):
         return
 
     if data == "send_voicenote":
-        kb = IKM([[IKB("Contact to Buy Now", url=BUY_LINK)]])
+        kb = IKM([[IKB("𝘉𝘶𝘺 𝘕𝘰𝘸", url=BUY_LINK)]])
         try:
             await q.message.reply_audio(FILE_PATH, reply_markup=kb)
         except MessageIdInvalid:
@@ -54,10 +54,10 @@ async def cbq(c: Client, q: CallbackQuery):
 
     if data == "give_feedback":
         if q.message.text:
-            await q.edit_message_text("Please wait for a while", reply_markup=None)
+            await q.edit_message_text("**Generating Request....**", reply_markup=None)
         else:
-            await q.edit_message_caption("Please wait for a while", reply_markup=None)
-        await q.message.reply_audio(FEEDBACK_VOICE, caption="You can take upto 5 minutes to send me a feedback\nAlso note that no commands will work in this duration you can sned /cancel to stop giving feedback")
+            await q.edit_message_caption("**Generating Request......**", reply_markup=None)
+        await q.message.reply_audio(FEEDBACK_VOICE, caption=">**• Share your content or content request below** \n > **• Mention any issues, suggestions, or queries**\n > ** •Once you're done, click 'Sure' to forward your message directly to the admin for review** \n\n**THANK YOU ✨**")
         USER_LISTENING[user_id] = {}
         current_listening.append(user_id)
         await q.message.delete()
@@ -74,7 +74,7 @@ async def cbq(c: Client, q: CallbackQuery):
             kb = IKM([[IKB("Contact me", url="https://t.me/CuteGirlTG")]])
             if reply_to.media_group_id:
                 x = await c.forward_media_group(AFTER_FEEDBACK, FEEDBACK_CHANNEL, reply_to.id, hide_sender_name=True,)
-                await x[0].reply_text("Media group detected", reply_markup=kb)
+                await x[0].reply_text(" **New Request**", reply_markup=kb)
             else:
                 await reply_to.copy(AFTER_FEEDBACK, reply_markup=kb)
             
@@ -118,13 +118,13 @@ async def cbq(c: Client, q: CallbackQuery):
 
 
     if data == "confirm_send":
-        await q.edit_message_text("Thanks for your precious feedback", reply_markup=None)
+        await q.edit_message_text("**Your Request Successfully Sended to TEAM**", reply_markup=None)
         func = USER_LISTENING[user_id]["forward"]
         z: Message = await func(FEEDBACK_CHANNEL, q.from_user.id, USER_LISTENING[user_id]["msg_id"])
-        kb = IKM([[IKB("Approve", "feedback_approve"), IKB("Reject", "feedback_reject")]])
+        kb = IKM([[IKB("𝘜𝘱𝘭𝘰𝘢𝘥", "feedback_approve"), IKB("𝘙𝘦𝘫𝘦𝘤𝘵 ", "feedback_reject")]])
         if isinstance(z, list):
             z = z[0]
-        await z.reply_text(f"Feedback given by: {USER_LISTENING[user_id]['mention']}", reply_markup=kb)
+        await z.reply_text(f"**Request given by:** {USER_LISTENING[user_id]['mention']}", reply_markup=kb)
         try:
             USER_LISTENING.pop(user_id)
         except:
@@ -148,9 +148,9 @@ async def cbq(c: Client, q: CallbackQuery):
                 pass
             
             Plugins.LISTENING_FOR = None
-            await q.edit_message_text("Bot is no longer listening to you", reply_markup=None)
+            await q.edit_message_text("**Request terminated**", reply_markup=None)
             return
-        await q.edit_message_text("Sent the reply successfully", reply_markup=None)
+        await q.edit_message_text("**Reply Successfully Sended**", reply_markup=None)
         func = ADMIN_REPLY_BACK[to_id]["forward"]
         await func(to_id, user_id, ADMIN_REPLY_BACK[to_id]["msg_id"], hide_sender_name=True)
         try:
@@ -165,7 +165,7 @@ async def cbq(c: Client, q: CallbackQuery):
         return
 
     if data == "don_t_send":
-        await q.edit_message_text("Bot is no longer listening to you", reply_markup=None)
+        await q.edit_message_text("**Your Request Terminated By You**", reply_markup=None)
         try:
             USER_LISTENING.pop(user_id)
         except:

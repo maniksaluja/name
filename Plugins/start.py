@@ -121,7 +121,7 @@ async def start_markup(_, feedback_req = False, tbelow = False) -> IKM:
     else:
         mark = [mark, [IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)]]
     if feedback_req:
-        mark.append([IKB("Give Feedback", "give_feedback")])
+        mark.append([IKB("sᴇɴᴅ ʀᴇϙᴜᴇsᴛ ", "give_feedback")])
     markup = IKM(mark)
     return markup
 
@@ -135,7 +135,7 @@ async def start(_: Client, m: Message):
         voice_n_kb = IKM(
             [
                 [
-                    IKB("Download", "send_voicenote")
+                    IKB("ᴅᴏᴡɴʟᴏᴀᴅ ", "send_voicenote")
                 ]
             ]
         )

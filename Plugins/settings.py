@@ -52,11 +52,11 @@ def markup(dic):
                 IKB(dic.get('generate', 10), callback_data='toggle_gen')
             ],
             [
-                IKB("Auto Forwarding", "answer"),
+                IKB("𝘈𝘶𝘵𝘰 𝘍𝘰𝘳𝘸𝘢𝘳𝘥", "answer"),
                 IKB(yes if dic.get('forwarding', True) else no, "toggle_fwd")
             ],
             [
-                IKB("Download button", "answer"),
+                IKB("𝘋𝘰𝘸𝘯𝘭𝘰𝘢𝘥", "answer"),
                 IKB(yes if dic.get('download', True) else no, "toggle_dl")
             ]
         ]

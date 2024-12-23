@@ -44,7 +44,7 @@ async def Delete_task(m: List[Message], link: str or None=None, to_edit: Message
             cur = get_cur_ep(txt, False)
     if not cur:
         cur = await get_count()
-    kb = InlineKeyboardMarkup([[InlineKeyboardButton("Get again", url=link)]])
+    kb = InlineKeyboardMarkup([[InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴀɢᴀɪɴ", url=link)]])
     if to_edit:
         await to_edit.edit_text(POST_DELETE_TEXT.format(cur), reply_markup=kb)
     return
