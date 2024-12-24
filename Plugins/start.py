@@ -62,12 +62,11 @@ async def check_fsub(user_id: int) -> bool:
     return True
 
 me = None
-chats = []
+chats = {}
 
 async def get_chats(c: Client):
     global chats
     if not chats:
-        new = []
         for x in FSUB:
             crt = False
             r = x
@@ -76,12 +75,10 @@ async def get_chats(c: Client):
                 r = x
             try:
                 y = await c.create_chat_invite_link(x, creates_join_request=crt)
-                new.append((y.invite_link, r))
+                chats[x] = y.invite_link
             except:
                 continue
     
-        chats.extend(new)
-
     return chats
 
 async def markup(_, link=None) -> IKM:
@@ -90,7 +87,7 @@ async def markup(_, link=None) -> IKM:
         chats = await get_chats(_)
     mark = []
     
-    for chat, id_ in chats:
+    for id_, chat in chats.items():
         if id_ in RFSUB or id_ == FSUB_1:
             mark.append([IKB("Send join request", url=chat)])
         else:
@@ -107,19 +104,11 @@ async def start_markup(_, feedback_req = False, tbelow = False) -> IKM:
     global chats
     if not chats:
         chats = await get_chats(_)
-    mark = []
     
-    for link, i in chats:
-        if i == FSUB_1:
-            mark.append(IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=link))
-        elif i == FSUB_2:
-            mark.append(IKB('ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ', url=link))
-        else:
-            continue
     if not tbelow:
-        mark = [[IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)], mark]
+        mark = [[IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)], [IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_1]), IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_2])]]
     else:
-        mark = [mark, [IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)]]
+        mark = [[IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_1]), IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_2])], [IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)]]
     if feedback_req:
         mark.append([IKB("sᴇɴᴅ ʀᴇϙᴜᴇsᴛ ", "give_feedback")])
     markup = IKM(mark)

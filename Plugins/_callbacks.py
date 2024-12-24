@@ -10,8 +10,9 @@ from pyrogram.types import Message
 import Plugins
 from config import (AFTER_FEEDBACK, AUTO_SAVE_CHANNEL_ID, BUY_LINK,
                     FEEDBACK_CHANNEL, OWNER_ID, SUDO_USERS)
+from Database.forward_data import get_and_delete, insert_user_data
 from Database.settings import get_settings, update_settings
-from templates import FEEDBACK_VOICE, FILE_PATH
+from templates import DL_CAPTION, FEEDBACK_VOICE, FILE_PATH
 
 from . import ADMIN_REPLY_BACK, USER_LISTENING, current_listening, listner
 from .paid import pay_cbq
@@ -39,17 +40,19 @@ async def cbq(c: Client, q: CallbackQuery):
     if data == "send_voicenote":
         kb = IKM([[IKB("𝘉𝘶𝘺 𝘕𝘰𝘸", url=BUY_LINK)]])
         try:
-            await q.message.reply_audio(FILE_PATH, reply_markup=kb)
-        except MessageIdInvalid:
-            pass
-        except Exception as e:
-            print(f"Error at line send_voienote: {e}")
-        try:
             await q.edit_message_reply_markup(None)
         except MessageIdInvalid:
             pass
         except Exception as e:
             print(f"Error at line send_voienote: {e}")
+            
+        try:
+            await q.message.reply_audio(FILE_PATH, caption=DL_CAPTION, reply_markup=kb)
+        except MessageIdInvalid:
+            pass
+        except Exception as e:
+            print(f"Error at line send voienote: {e}")
+        
         return
 
     if data == "give_feedback":
@@ -82,10 +85,17 @@ async def cbq(c: Client, q: CallbackQuery):
 
         elif to_do == "reject":
             await q.edit_message_text("**REQUEST REJECTED \n > Check Your Inbox I sended You Msg Related This Request** ", reply_markup=None)
-            kb = IKM([[IKB("𝘠𝘌𝘚", f"feedback_r:{reply_to.forward_from.id}"), IKB("𝘕𝘖", f"feedback_i:{reply_to.forward_from.id}")]])
+
+            if not reply_to.forward_from:
+                USER_ID = await get_and_delete(reply_to.id)
+            else:
+                USER_ID = reply_to.forward_from.id
+
+            kb = IKM([[IKB("𝘠𝘌𝘚", f"feedback_r:{USER_ID}"), IKB("𝘕𝘖", f"feedback_i:{USER_ID}")]])
 
             await c.send_message(OWNER_ID, f"**Do You Want To Say Something About This [Request]**({reply_to.link})?", disable_web_page_preview=True, reply_markup=kb)
-            ADMIN_REPLY_BACK[reply_to.forward_from.id] = {}
+
+            ADMIN_REPLY_BACK[USER_ID] = {}
 
             return
 
@@ -121,6 +131,8 @@ async def cbq(c: Client, q: CallbackQuery):
         await q.edit_message_text("**Your Request Successfully Sended to TEAM**", reply_markup=None)
         func = USER_LISTENING[user_id]["forward"]
         z: Message = await func(FEEDBACK_CHANNEL, q.from_user.id, USER_LISTENING[user_id]["msg_id"])
+        if not z.forward_from:
+            await insert_user_data(z.id, user_id)
         kb = IKM([[IKB("𝘜𝘱𝘭𝘰𝘢𝘥", "feedback_approve"), IKB("𝘙𝘦𝘫𝘦𝘤𝘵 ", "feedback_reject")]])
         if isinstance(z, list):
             z = z[0]
@@ -211,8 +223,11 @@ async def cbq(c: Client, q: CallbackQuery):
     # Define helper function for toggling settings
     async def toggle_setting(setting_key, default_value=False):
         settings = await get_settings()
+        if 'download' not in settings:
+            settings['download'] = True
+
         if 'forwarding' not in settings:
-            settings['forwarding'] =True
+            settings['forwarding'] = True
             
         if setting_key == "logs":
             toggle_able = ["both", "l1", "l2", False]
@@ -245,7 +260,10 @@ async def cbq(c: Client, q: CallbackQuery):
         setting_key = toggle_actions[data]
         settings, mark = await toggle_setting(setting_key)
         await q.answer("Updating values...")
-        await q.edit_message_reply_markup(reply_markup=mark)
+        try:
+            await q.edit_message_reply_markup(mark)
+        except MessageNotModified:
+            print(f"Setting keyboard failed to update for key {setting_key}")
 
     # Handle 'activate' and 'toggle' prefixes (paid-related actions)
     elif data.startswith(("toggleab", "togglesu", "togglemc", "togglead", "activate")):

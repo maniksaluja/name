@@ -17,7 +17,7 @@ async def idk(c: Client, j: ChatMemberUpdated):
     if not (settings.get('join') or settings['leave']):
         return
     chat_id = j.chat.id
-    link = (await get_chats(c))[1][0]
+    link = (await get_chats(c)).get(FSUB_1)
     markup = IKM(
       [
         [

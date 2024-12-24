@@ -85,3 +85,5 @@ Is Expired Now But You Can RENEW**
 CUSTOM_CAPTION = """
 > **[DISCLAIMER!!](https://telegra.ph/DISCLAIMER-12-19-32)**
 """
+
+DL_CAPTION = "liste to this audio plz"

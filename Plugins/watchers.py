@@ -114,14 +114,10 @@ async def cwf(_: Client, m: Message):
 @Client.on_message(filters.chat(FSUB_1))
 async def reactionnn(c: Client, m: Message):
     try:
-        await app.send_reaction(m.chat.id, m.id, "ðŸ‘")
+        await m.react("👍")
     except Exception as e:
-        print(f"Got error while giving reaction: {e}")
-    try:
-        await app1.send_reaction(m.chat.id, m.id, "ðŸ‘Ž")
-    except Exception as e:
-        print(f"Got error while giving reaction: {e}")
-
+        print(f"Got error while giving reaction in bot 1: {e}")
+    
     if AUTO_SAVE_CHANNEL:
         if not (await get_settings()).get('forwarding', True):
             return

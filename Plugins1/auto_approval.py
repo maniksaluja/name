@@ -22,7 +22,7 @@ async def cjr(_: Client, r: ChatJoinRequest):
 
     if chat.id != FSUB_1:
         return
-    link = (await get_chats(_))[1][0]
+    link = (await get_chats(_)).get(FSUB_1)
     markup = IKM(
       [
         [
@@ -49,7 +49,8 @@ async def cjr(_: Client, r: ChatJoinRequest):
             return
             
         await delete_user(userId, chat.id) #Delete the pending request user from db as the join request is accepted successfully
-
+        if not settings.get('join'):
+            return #Welcome msg is disabbled
         if JOIN_IMAGE:
             await _.send_photo(r.from_user.id, JOIN_IMAGE, caption=JOIN_MESSAGE.format(r.from_user.mention), reply_markup=markup)
         else:
