@@ -36,21 +36,25 @@ async def cbq(c: Client, q: CallbackQuery):
             await new_msg.copy(AUTO_SAVE_CHANNEL_ID)
         return
 
-    if data == "send_voicenote":
-        kb = IKM([[IKB("𝘉𝘶𝘺 𝘕𝘰𝘸", url=BUY_LINK)]])
-        try:
-            await q.message.reply_audio(FILE_PATH, reply_markup=kb)
-        except MessageIdInvalid:
-            pass
-        except Exception as e:
-            print(f"Error at line send_voienote: {e}")
-        try:
-            await q.edit_message_reply_markup(None)
-        except MessageIdInvalid:
-            pass
-        except Exception as e:
-            print(f"Error at line send_voienote: {e}")
-        return
+if data == "send_voicenote":
+    kb = IKM([[IKB("𝘉𝘶𝘺 𝘕𝘰𝘸", url=BUY_LINK)]])
+    try:
+        await q.message.reply_audio(
+            FILE_PATH, 
+            caption="> **UNLOCK UNLIMITED \n Downloads for just ₹79! Get Access to all content for the next 30 days and download as much as you want👇🏻**> ",  # Caption yaha add karein
+            reply_markup=kb
+        )
+    except MessageIdInvalid:
+        pass
+    except Exception as e:
+        print(f"Error at line send_voicenote: {e}")
+    try:
+        await q.edit_message_reply_markup(None)
+    except MessageIdInvalid:
+        pass
+    except Exception as e:
+        print(f"Error at line send_voicenote: {e}")
+    return
 
     if data == "give_feedback":
         if q.message.text:
