@@ -13,6 +13,7 @@ from .paid import pay_cbq
 from .settings import markup
 from .system_info import current_speed, get_system_info
 
+
 @Client.on_callback_query()
 async def cbq(c: Client, q: CallbackQuery):
     data = q.data
@@ -118,4 +119,8 @@ async def cbq(c: Client, q: CallbackQuery):
         setting_key = data.split("_")[1]
         settings, mark = await toggle_setting(setting_key)
         await q.answer("Updating values...")
-        await q.edit_message_reply_markup(reply_markup=mark)
+        # Check if the current reply_markup is the same as the new one
+        if q.message.reply_markup != mark:
+            await q.edit_message_reply_markup(reply_markup=mark)
+        else:
+            print("No changes in markup, skipping edit.")
