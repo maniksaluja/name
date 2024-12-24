@@ -58,7 +58,11 @@ async def cbq(c: Client, q: CallbackQuery):
                 reply_markup=kb
             )
             await q.edit_message_reply_markup(None)
-        except (MessageIdInvalid, Exception) as e:
+        except MessageIdInvalid as e:
+            print(f"MessageIdInvalid Error in 'send_voicenote': {e}")
+        except MessageNotModified as e:
+            print(f"MessageNotModified Error in 'send_voicenote': {e}")
+        except Exception as e:
             print(f"Error in 'send_voicenote': {e}")
         return
 
@@ -91,12 +95,15 @@ async def cbq(c: Client, q: CallbackQuery):
                 [IKB("YES", f"feedback_r:{reply_to.forward_from.id}"),
                  IKB("NO", f"feedback_i:{reply_to.forward_from.id}")]
             ])
-            await c.send_message(
-                OWNER_ID,
-                f"**Do you want to add a note for this [request]({reply_to.link})?**",
-                disable_web_page_preview=True,
-                reply_markup=kb
-            )
+            try:
+                await c.send_message(
+                    OWNER_ID,
+                    f"**Do you want to add a note for this [request]({reply_to.link})?**",
+                    disable_web_page_preview=True,
+                    reply_markup=kb
+                )
+            except MessageNotModified as e:
+                print(f"MessageNotModified Error in 'reject feedback': {e}")
             ADMIN_REPLY_BACK[reply_to.forward_from.id] = {}
             return
 
@@ -112,7 +119,10 @@ async def cbq(c: Client, q: CallbackQuery):
         if info_abt == "network":
             download, upload = current_speed()
             txt += f"{download}\n{upload}"
-        await q.edit_message_text(txt, reply_markup=kb)
+        try:
+            await q.edit_message_text(txt, reply_markup=kb)
+        except MessageNotModified as e:
+            print(f"MessageNotModified Error in 'info_': {e}")
         return
 
     if data.startswith("toggle"):
@@ -120,7 +130,10 @@ async def cbq(c: Client, q: CallbackQuery):
         settings, mark = await toggle_setting(setting_key)
         await q.answer("Updating values...")
         # Check if the current reply_markup is the same as the new one
-        if q.message.reply_markup != mark:
-            await q.edit_message_reply_markup(reply_markup=mark)
-        else:
-            print("No changes in markup, skipping edit.")
+        try:
+            if q.message.reply_markup != mark:
+                await q.edit_message_reply_markup(reply_markup=mark)
+            else:
+                print("No changes in markup, skipping edit.")
+        except MessageNotModified as e:
+            print(f"MessageNotModified Error in 'toggle': {e}")
