@@ -106,9 +106,9 @@ async def start_markup(_, feedback_req = False, tbelow = False) -> IKM:
         chats = await get_chats(_)
     
     if not tbelow:
-        mark = [[IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)], [IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_1]), IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_2])]]
+        mark = [[IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)], [IKB('ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_1]), IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_2])]]
     else:
-        mark = [[IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_1]), IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_2])], [IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)]]
+        mark = [[IKB('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_1]), IKB('ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ', url=chats[FSUB_2])], [IKB("ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴛᴇʀᴀʙᴏx ʙᴏᴛ", url=TUTORIAL_LINK)]]
     if feedback_req:
         mark.append([IKB("sᴇɴᴅ ʀᴇϙᴜᴇsᴛ ", "give_feedback")])
     markup = IKM(mark)

@@ -21,7 +21,7 @@ async def idk(c: Client, j: ChatMemberUpdated):
     markup = IKM(
       [
         [
-          IKB("ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ", url=link),
+          IKB("ᴊᴏɪɴ ᴀɢᴀɪɴ", url=link),
           IKB("ᴄᴏᴅᴇ ʟᴀɴɢᴜᴀɢᴇ", url=MUST_VISIT_LINK)
         ],
         [
