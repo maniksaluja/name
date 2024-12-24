@@ -132,7 +132,7 @@ async def start(_: Client, m: Message):
         voice_n_kb = None
     if not me:
         me = await _.get_me()
-    print(m.text)
+    
     user_id = m.from_user.id
     if not await is_user(user_id):
         await add_user(user_id)

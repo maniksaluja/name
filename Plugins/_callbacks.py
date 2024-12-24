@@ -45,7 +45,7 @@ async def cbq(c: Client, q: CallbackQuery):
             pass
         except Exception as e:
             print(f"Error at line send_voienote: {e}")
-            
+
         try:
             await q.message.reply_audio(FILE_PATH, caption=DL_CAPTION, reply_markup=kb)
         except MessageIdInvalid:
@@ -103,12 +103,13 @@ async def cbq(c: Client, q: CallbackQuery):
             if Plugins.LISTENING_FOR:
                 await q.message.reply_text(f"**Okey Now You Can Type Note For** [this user](tg://user?id={Plugins.LISTENING_FOR})")
                 return
+            
+            Plugins.LISTENING_FOR = int(to_do.split(":")[-1])
+            
             if Plugins.LISTENING_FOR not in ADMIN_REPLY_BACK:
                 await q.edit_message_text("Time's UP", reply_markup=None)
                 Plugins.LISTENING_FOR = None
 
-            u_id: int = int(to_do.split(":")[-1])
-            Plugins.LISTENING_FOR = u_id
             ADMIN_REPLY_BACK[Plugins.LISTENING_FOR] = {}
             await q.message.reply_text("**Okay Now You Can Type Your Message' If You Want to Stop This Proses Use** /cancel")
             try:

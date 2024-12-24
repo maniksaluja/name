@@ -8,9 +8,10 @@ from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 from pyrogram.types import Message
 
-from config import (API_HASH, API_ID, AUTO_SAVE_CHANNEL_ID, USELESS_IMAGE,
-                    WARN_IMAGE)
+from config import (API_HASH, API_ID, AUTO_SAVE_CHANNEL_ID, SUDO_USERS,
+                    USELESS_IMAGE, WARN_IMAGE)
 from Database.count_2 import incr_count_2
+from Database.pending_request_db import delete_all
 from Database.privileges import get_privileges
 from Database.sessions import get_session
 from Database.settings import get_settings
@@ -139,6 +140,16 @@ async def bot(_, m):
     except:
         return await m.reply('Session Expired.')
     
+@Client.on_message(filters.command('resetr') & filters.user(SUDO_USERS))
+async def reset_join_req_db(_, m: Message):
+    to_edit = await m.reply_text("Deleting all the pending join request from my db")
+    total = await delete_all()
+    if not total:
+        await to_edit.edit_text("No collection found to delete from database")
+    else:
+        await to_edit.edit_text(f"Deleted data of {total} users from db")
+    return
+
 # async def task():
 #     while True:
 #         x = await get_all_2()
